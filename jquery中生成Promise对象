@@ -1,0 +1,22 @@
+var promptDeferred = new $.Deferred() ; 
+promptDeferred.always(callback) ; 
+promptDeferred.done(callback) ; 
+promptDeferred.fail(callback) ; 
+
+//触发done
+promptDeferred.resolve() ; 
+
+//触发fail 
+promptDeferred.reject() ; 
+
+注 : 
+1. Deferred 是Promise的超集 , 它比Promise多一项特性 : 可以直接触发 , Promise需要由其他的东西来触发 . 
+2. 按照绑定的次序来运行回调
+
+
+
+
+进度通知 : 
+promptDeferred.progress(callback) ; 
+//触发方式
+promptDeferred.nofity(params) ; 

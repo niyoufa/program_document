@@ -1,0 +1,21 @@
+#生成一对密钥
+def init_rsa_key():
+    if os.path.exists(settings.RSA_PUBLIC_KEY) and os.path.exists(settings.RSA_PRIVATE_KEY):
+        # load公钥和密钥
+        with open(settings.RSA_PUBLIC_KEY) as publickfile:
+            rsa_public_key = publickfile.read()
+        with open(settings.RSA_PRIVATE_KEY) as privatefile:
+            rsa_private_key = privatefile.read()
+            rsa_key = RSA.importKey(rsa_private_key)
+    else:
+        rsa_key = RSA.generate(2048)
+        rsa_private_key = rsa_key.exportKey()
+        rsa_public_key = rsa_key.publickey().exportKey().replace('\n','')
+
+        pubfile = open(settings.RSA_PUBLIC_KEY,'w+')
+        pubfile.write(rsa_public_key)
+        pubfile.close()
+
+        prifile = open(settings.RSA_PRIVATE_KEY,'w+')
+        prifile.write(rsa_private_key)
+        prifile.close()

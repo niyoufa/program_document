@@ -1,0 +1,25 @@
+1 !/usr/bin/python
+ 2 #encoding:utf-8
+ 3 #这是一个用来检测用户输入手机号码是否合法的小脚本。
+ 4 
+ 5 def phonecheck(s):
+ 6         #号码前缀，如果运营商启用新的号段，只需要在此列表将新的号段加上即可。
+ 7         phoneprefix=['130','131','132','133','134','135','136','137','138','139','150','151','152','153','156','158','159','170','183','182','185','186','188','189']
+ 8         #检测号码是否长度是否合法。
+ 9         if len(s)<>11:
+10                 print "The length of phonenum is 11."
+11         else:
+12                 #检测输入的号码是否全部是数字。
+13                 if  s.isdigit():
+14                         #检测前缀是否是正确。
+15                         if s[:3] in phoneprefix:
+16                                 print "The phone num is valid."
+17                         else:
+18                                 print "The phone num is invalid."
+19                 else:
+20                         print "The phone num is made up of digits."
+21 
+22 
+23 if __name__=="__main__":
+24         phonenum=raw_input("Input your phone num:")
+25         phonecheck(phonenum)

@@ -1,0 +1,52 @@
+1. 搜索框样式
+(1) 
+<div class="input-group">
+<input type="text" class="form-control">
+<span class="input-group-addon">.00</span>
+</div>
+(2)
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<form class="form-search">
+				<input class="input-medium search-query" type="text" /> <button type="submit" class="btn">查找</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+2. 鼠标样式
+style="cursor:pointer;"
+
+3.面板
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						面板标题
+					</h3>
+				</div>
+				<div class="panel-body">
+					Panel content
+				</div>
+				<div class="panel-footer">
+					Panel footer
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+4.bootstrap javascript插件
+http://caibaojian.com/bootstrap/javascript.html
+
+5. html滚动条
+http://blog.csdn.net/woshixuye/article/details/7224059
+style="overflow-y:auto;height:500px;"
+
+6. HTML滚动文字代码 marquee标签
+<marquee scrollAmount=2 width=500 style="margin-left:200px;">2015年9月19日!</marquee>
+http://blog.sina.com.cn/s/blog_4ba2ac620100iv36.html
+

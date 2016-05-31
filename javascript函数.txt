@@ -1,0 +1,80 @@
+
+javascript函数
+
+1. 定义和使用函数
+创建函数：函数声明,函数标识记法，命名函数表达式
+
+2. 函数参数传递
+参数：定义了参数但没有传递相应的参数则js引擎自动设置其为undefined
+
+内建变量arguments：函数所接收的所有参数的list
+
+3. js预定义函数
+parseInt()
+parseFloat()
+isNaN()
+isFinite()
+encodeURI()
+decodeURI()
+encodeURIComponent()
+decodeURIComponent()
+eval()
+alert()
+
+4. 作用域
+js中变量以函数作为作用域
+全局变量：定义在所有函数之外的变量
+局部变量：在某个函数中定义的变量
+提升：函数内声明的所有变量都会被移动到函数最开始的地方。被提升的是变量的声明，与之相关的赋值操作不会被提升。
+5. 函数也是数据
+特性：包含的是代码，可执行
+
+5. 匿名函数
+var sum = function(a){
+    return a ;
+}
+用途 ：将匿名函数作为参数传递给其他函数（回调函数）
+定义某个匿名函数执行某些一次性任务（自调函数，也叫即时函数）
+
+6. 回调函数
+当我们将函数A传递给函数B，并由B来执行A时，A就成了回调函数
+
+7. 自调函数
+(
+    function(name){
+        alert(name);
+    }
+)("niyoufa") ;
+优点：不会产生任何全局变量 ；
+缺点：无法重复执行；
+
+8. 内嵌函数
+优点:确保全局命名空间的纯净性，确保私有性
+
+9. 函数作为返回值的函数
+10. 能重定义自身的函数
+浏览器兼容性探测
+11. 闭包
+应用 ：
+getter与setter
+示例：
+var getValue ,setValue ; 
+(function(){
+    var value = 0 ;
+    getValue = function(){
+        return value ;
+    }
+    setValue = function(value){
+         value = value ;
+    }
+})();
+
+实现迭代器
+next = function(items){
+    var i = 0 ; 
+    return function(){
+        return items[i++] ;
+    }
+}
+
+发自我的iPhone

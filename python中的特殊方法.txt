@@ -1,0 +1,430 @@
+python中实现定制类的特殊方法总结
+
+这篇文章主要介绍了python中实现定制类的特殊方法总结,本文讲解了__str__、__iter__、__getitem__、__getattr__、__call__等特殊方法,需要的朋友可以参考下 : 
+看到类似__slots__这种形如__xxx__的变量或者函数名就要注意，这些在Python中是有特殊用途的。
+__slots__我们已经知道怎么用了，__len__()方法我们也知道是为了能让class作用于len()函数。
+除此之外，Python的class中还有许多这样有特殊用途的函数，可以帮助我们定制类。
+
+__str__
+我们先定义一个Student类，打印一个实例：
+复制代码 代码如下:
+
+>>> class Student(object):
+...     def __init__(self, name):
+...         self.name = name
+...
+>>> print Student('Michael')
+<__main__.Student object at 0x109afb190>
+
+打印出一堆<__main__.Student object at 0x109afb190>，不好看。
+怎么才能打印得好看呢？只需要定义好__str__()方法，返回一个好看的字符串就可以了：
+复制代码 代码如下:
+
+>>> class Student(object):
+...     def __init__(self, name):
+...         self.name = name
+...     def __str__(self):
+...         return 'Student object (name: %s)' % self.name
+...
+>>> print Student('Michael')
+Student object (name: Michael)
+
+这样打印出来的实例，不但好看，而且容易看出实例内部重要的数据。
+但是细心的朋友会发现直接敲变量不用print，打印出来的实例还是不好看：
+复制代码 代码如下:
+
+>>> s = Student('Michael')
+>>> s
+<__main__.Student object at 0x109afb310>
+
+这是因为直接显示变量调用的不是__str__()，而是__repr__()，两者的区别是__str__()返回用户看到的字符串，而__repr__()返回程序开发者看到的字符串，也就是说，__repr__()是为调试服务的。
+解决办法是再定义一个__repr__()。但是通常__str__()和__repr__()代码都是一样的，所以，有个偷懒的写法：
+复制代码 代码如下:
+
+class Student(object):
+    def __init__(self, name):
+        self.name = name
+    def __str__(self):
+        return 'Student object (name=%s)' % self.name
+    __repr__ = __str__
+
+__iter__
+如果一个类想被用于for ... in循环，类似list或tuple那样，就必须实现一个__iter__()方法，该方法返回一个迭代对象，然后，Python的for循环就会不断调用该迭代对象的next()方法拿到循环的下一个值，直到遇到StopIteration错误时退出循环。
+我们以斐波那契数列为例，写一个Fib类，可以作用于for循环：
+复制代码 代码如下:
+
+class Fib(object):
+    def __init__(self):
+        self.a, self.b = 0, 1 # 初始化两个计数器a，b
+    def __iter__(self):
+        return self # 实例本身就是迭代对象，故返回自己
+    def next(self):
+        self.a, self.b = self.b, self.a + self.b # 计算下一个值
+        if self.a > 100000: # 退出循环的条件
+            raise StopIteration();
+        return self.a # 返回下一个值
+现在，试试把Fib实例作用于for循环：
+复制代码 代码如下:
+
+>>> for n in Fib():
+...     print n
+...
+1
+1
+2
+3
+5
+...
+46368
+75025
+__getitem__
+Fib实例虽然能作用于for循环，看起来和list有点像，但是，把它当成list来使用还是不行，比如，取第5个元素：
+复制代码 代码如下:
+
+>>> Fib()[5]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'Fib' object does not support indexing
+
+要表现得像list那样按照下标取出元素，需要实现__getitem__()方法：
+复制代码 代码如下:
+
+class Fib(object):
+    def __getitem__(self, n):
+        a, b = 1, 1
+        for x in range(n):
+            a, b = b, a + b
+        return a
+
+现在，就可以按下标访问数列的任意一项了：
+复制代码 代码如下:
+
+>>> f = Fib()
+>>> f[0]
+1
+>>> f[1]
+1
+>>> f[2]
+2
+>>> f[3]
+3
+>>> f[10]
+89
+>>> f[100]
+573147844013817084101
+
+但是list有个神奇的切片方法：
+复制代码 代码如下:
+
+>>> range(100)[5:10]
+[5, 6, 7, 8, 9]
+
+对于Fib却报错。原因是__getitem__()传入的参数可能是一个int，也可能是一个切片对象slice，所以要做判断：
+复制代码 代码如下:
+
+class Fib(object):
+    def __getitem__(self, n):
+        if isinstance(n, int):
+            a, b = 1, 1
+            for x in range(n):
+                a, b = b, a + b
+            return a
+        if isinstance(n, slice):
+            start = n.start
+            stop = n.stop
+            a, b = 1, 1
+            L = []
+            for x in range(stop):
+                if x >= start:
+                    L.append(a)
+                a, b = b, a + b
+            return L
+
+现在试试Fib的切片：
+复制代码 代码如下:
+
+>>> f = Fib()
+>>> f[0:5]
+[1, 1, 2, 3, 5]
+>>> f[:10]
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
+
+但是没有对step参数作处理：
+复制代码 代码如下:
+
+>>> f[:10:2]
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+
+也没有对负数作处理，所以，要正确实现一个__getitem__()还是有很多工作要做的。
+此外，如果把对象看成dict，__getitem__()的参数也可能是一个可以作key的object，例如str。
+与之对应的是__setitem__()方法，把对象视作list或dict来对集合赋值。最后，还有一个__delitem__()方法，用于删除某个元素。
+总之，通过上面的方法，我们自己定义的类表现得和Python自带的list、tuple、dict没什么区别，这完全归功于动态语言的“鸭子类型”，不需要强制继承某个接口。
+__getattr__
+正常情况下，当我们调用类的方法或属性时，如果不存在，就会报错。比如定义Student类：
+复制代码 代码如下:
+
+class Student(object):
+    def __init__(self):
+        self.name = 'Michael'
+
+调用name属性，没问题，但是，调用不存在的score属性，就有问题了：
+复制代码 代码如下:
+
+>>> s = Student()
+>>> print s.name
+Michael
+>>> print s.score
+Traceback (most recent call last):
+  ...
+AttributeError: 'Student' object has no attribute 'score'
+
+错误信息很清楚地告诉我们，没有找到score这个attribute。
+要避免这个错误，除了可以加上一个score属性外，Python还有另一个机制，那就是写一个__getattr__()方法，动态返回一个属性。修改如下：
+复制代码 代码如下:
+
+class Student(object):
+    def __init__(self):
+        self.name = 'Michael'
+    def __getattr__(self, attr):
+        if attr=='score':
+            return 99
+
+当调用不存在的属性时，比如score，Python解释器会试图调用__getattr__(self, 'score')来尝试获得属性，这样，我们就有机会返回score的值：
+复制代码 代码如下:
+
+>>> s = Student()
+>>> s.name
+'Michael'
+>>> s.score
+99
+
+返回函数也是完全可以的：
+复制代码 代码如下:
+
+class Student(object):
+    def __getattr__(self, attr):
+        if attr=='age':
+            return lambda: 25
+
+只是调用方式要变为：
+复制代码 代码如下:
+
+>>> s.age()
+25
+
+注意，只有在没有找到属性的情况下，才调用__getattr__，已有的属性，比如name，不会在__getattr__中查找。
+此外，注意到任意调用如s.abc都会返回None，这是因为我们定义的__getattr__默认返回就是None。要让class只响应特定的几个属性，我们就要按照约定，抛出AttributeError的错误：
+复制代码 代码如下:
+
+class Student(object):
+    def __getattr__(self, attr):
+        if attr=='age':
+            return lambda: 25
+        raise AttributeError('\'Student\' object has no attribute \'%s\'' % attr)
+
+这实际上可以把一个类的所有属性和方法调用全部动态化处理了，不需要任何特殊手段。
+这种完全动态调用的特性有什么实际作用呢？作用就是，可以针对完全动态的情况作调用。
+举个例子：
+现在很多网站都搞REST API，比如新浪微博、豆瓣啥的，调用API的URL类似：
+http://api.server/user/friends
+http://api.server/user/timeline/list
+如果要写SDK，给每个URL对应的API都写一个方法，那得累死，而且，API一旦改动，SDK也要改。
+利用完全动态的__getattr__，我们可以写出一个链式调用：
+复制代码 代码如下:
+
+class Chain(object):
+    def __init__(self, path=''):
+        self._path = path
+    def __getattr__(self, path):
+        return Chain('%s/%s' % (self._path, path))
+    def __str__(self):
+        return self._path
+
+试试：
+复制代码 代码如下:
+
+>>> Chain().status.user.timeline.list
+'/status/user/timeline/list'
+
+这样，无论API怎么变，SDK都可以根据URL实现完全动态的调用，而且，不随API的增加而改变！
+还有些REST API会把参数放到URL中，比如GitHub的API：
+复制代码 代码如下:
+
+GET /users/:user/repos
+
+调用时，需要把:user替换为实际用户名。如果我们能写出这样的链式调用：
+复制代码 代码如下:
+
+Chain().users('michael').repos
+
+就可以非常方便地调用API了。有兴趣的童鞋可以试试写出来。
+
+__call__
+一个对象实例可以有自己的属性和方法，当我们调用实例方法时，我们用instance.method()来调用。能不能直接在实例本身上调用呢？类似instance()？在Python中，答案是肯定的。
+任何类，只需要定义一个__call__()方法，就可以直接对实例进行调用。请看示例：
+复制代码 代码如下:
+
+class Student(object):
+    def __init__(self, name):
+        self.name = name
+    def __call__(self):
+        print('My name is %s.' % self.name)
+
+调用方式如下：
+复制代码 代码如下:
+
+>>> s = Student('Michael')
+>>> s()
+My name is Michael.
+
+__call__()还可以定义参数。对实例进行直接调用就好比对一个函数进行调用一样，所以你完全可以把对象看成函数，把函数看成对象，因为这两者之间本来就没啥根本的区别。
+如果你把对象看成函数，那么函数本身其实也可以在运行期动态创建出来，因为类的实例都是运行期创建出来的，这么一来，我们就模糊了对象和函数的界限。
+那么，怎么判断一个变量是对象还是函数呢？其实，更多的时候，我们需要判断一个对象是否能被调用，能被调用的对象就是一个Callable对象，比如函数和我们上面定义的带有__call()__的类实例：
+复制代码 代码如下:
+
+>>> callable(Student())
+True
+>>> callable(max)
+True
+>>> callable([1, 2, 3])
+False
+>>> callable(None)
+False
+>>> callable('string')
+False
+
+通过callable()函数，我们就可以判断一个对象是否是“可调用”对象。
+小结
+Python的class允许定义许多定制方法，可以让我们非常方便地生成特定的类。
+
+
+
+python中的定制方法
+
+在定制类的过程中，添加的方法和属性能完成大部分工作。但若想要类表现出一些特殊行为或者能够响应某些内建函数或操作符，那么就需要构建一些特殊方法。这些特殊方法的标识是方法名以双下划线（__）开头与结尾，除了常用的构造器 __init__() 外，还有一些常用的特殊方法。
+
+基础方法：
+
+C.__new__(self[,arg1,…])        构造器（带一些可选的参数）；通常用在设置不可变数据类型的子类
+C.__del__(self)        解构器
+C.__str__(self)        可打印的字符串输出；内建 str() 及 print() 函数
+C.__repr__(self)        运行时的字符串输出；内建 repr() 函数及 ' ' 操作符
+C.__call__(self,*args)        用于可调用的实例；可以用来替代闭包的实现
+C.__nonezero__(self)        为实例定义 False 值；内建 bool() 函数
+C.__len__(self)        长度；内建 len()
+类的值比较：
+
+C.__cmp__(self,obj)        对象比较；内建 cmp()
+C.__lt__(self,obj) & C.__le__(self,obj)        小于或小于等于；内建< & <=
+C.__gt__(self,obj) & C.__ge__(self,obj)        大于或大于等于；内建 > & >=
+C.__eq__(self,obj) & C.__ne__(self,obj)        等于或不等于；内建 = & ！=
+类的属性：
+
+C.__getattr__(self,attr)        获取属性；内建 getattr()；仅在属性没有找到时调用
+C.__setattr__(self,attr)        设置属性
+C.__delattr__(self,attr)        删除属性
+C.__getattribute__(self,attr)        获取属性；内建 getattr()；总是被调用
+C.__get__(self,attr)        （描述符）获取属性
+C.__set__(self,attr)        （描述符）设置属性
+C.__delete__(self,attr)        （描述符）删除属性
+数值类型，二进制操作符：
+
+C.__*add__(self,obj)        加；+ 操作符
+C.__*sub__(self,obj)        减；+ 操作符
+C.__*mul__(self,obj)        乘；* 操作符
+C.__*dev__(self,obj)        除；/ 操作符
+C.__*truediv__(self,obj)        真正的除法；/ 操作符
+C.__*floordiv__(self,obj)        地板除；// 操作符
+C.__*mod__(self,obj)        取模；% 操作符
+C.__*divmod__(self,obj)        除和取模；内建 divmod()
+C.__*pow__(self,obj[,mod])        乘幂；内建 pow() ; ** 操作符
+C.__*lshift__(self,obj)        左移位；<< 操作符
+C.__*rshift__(self,obj)        右移位；>> 操作符
+C.__*and__(self,obj)        按位与；& 操作符
+C.__*or__(self,obj)        按位或；| 操作符
+C.__*xor__(self,obj)        按位异或；^ 操作符
+数值类型，一元操作符：
+
+C.__neg__(self)        一元负
+C.__pos__(self)        一元正
+C.__abs__(self)        绝对值；内建 abs()
+C.__invert__(self)        按位求反；内建 ~ 操作符
+数值类型，数值转换：
+
+C.__complex__(self, com)        内建 complex()
+C.__int__(self)        内建 int()
+C.__float__(self)        内建 float()
+数值类型，数值压缩：
+
+C.__index__(self)        在有必要时，压缩可选的数值类型为整型（比如用于切片索引时等）
+序列类型：
+
+C.__len__(self)        序列中的项目数
+C.__getitem__(self, ind)        获取一个元素
+C.__setitem__(self, ind,val)        设置一个元素
+C.__delitem__(self, ind)        删除一个元素
+C.__getslice__(self, ind1,ind2)        获取切片元素
+C.__setslice__(self, i1, i2,val)        设置切片元素
+C.__delslice__(self, ind1,ind2)        删除切片元素
+C.__contains__(self, val)        含有成员；内建 in 关键字
+C.__*add__(self,obj)        串联；+ 操作符
+C.__*mul__(self,obj)        重复；* 操作符
+C.__iter__(self)        生成迭代器；内建 iter() 函数
+映射类型：
+
+C.__len__(self)        类中的项目数
+C.__hash__(self)        散列（hash）函数值
+C.__getitem__(self,key)        获取某个值
+C.__setitem__(self,key,val)        设置某个值
+C.__delitem__(self,key)        删除某个值
+C.__missing__(self,key)        给定键若不存在，则返回一个默认值
+一般常用的特殊方法就是上面这些，某些如 coerce() 这样在 Python3 中被删除或失效的内建函数就没有再列出来。因为 Python 的内建类型已经能够满足日常需求，所以下面的例子就只来实现一个功能吧：虽然 float 类型有 .hex() 方法，但内建的 hex() 函数却不支持 float 类型。所以我们来自定义一个可以被内建的 hex() 调用的浮点类型。为了省事，我们就直接从 float 派生了~
+
+?
+1
+2
+3
+class iFloat(float):
+    def __index__(self):
+        return int(self)
+运行结果如下：
+
+?
+1
+2
+3
+>>> a = iFloat(1.1)
+>>> hex(a)
+'0x1'
+P.S. 上面这个例子是个伪栗子。因为他实际是通过将浮点数强制转换为整数来满足调用 hex() 函数的条件的。按照官方文档的说法，hex() 函数只接受 int 类型做参数，你在 iFloat 里实现 __hex__() 也没用，这也是我把 __oct__() 和 __hex__() 从上面删除的原因。同时按照官方文档的说法，如果你硬要调用内建 hex() 函数，则必须实现 __index__() 方法来返回一个整数（是的，还是得要整数…）
+
+即，下面这种方法是木有用的：
+
+?
+1
+2
+3
+class iFloat(float):
+    def __hex__(self):
+        return self.hex()
+仍然会报错，尽管 __hex__(self) 可以返回正常值：
+
+?
+1
+2
+3
+4
+5
+6
+7
+8
+>>> a = iFloat(1.1)
+>>> hex(a)
+Traceback (most recent call last):
+  File "<pyshell#31>", line 1, in <module>
+    hex(a)
+TypeError: 'iFloat' object cannot be interpreted as an integer
+>>> a.__hex__()
+'0x1.199999999999ap+0'
+觉得这可能是因为内建 hex() 函数已经不只是调用 __hex__() 这么简单了。
+

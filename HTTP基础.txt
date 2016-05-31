@@ -1,0 +1,14 @@
+HTTP基础
+
+1. 媒体资源MIME ：text/html text/plain image/jpeg image/gif
+2. URI （URL/URN）
+3. HTTP事务
+4. HTTP method ：GET PUT DELETE POST HEAD
+5. 状态码 ：200 302 404 403
+6. HTTP报文：由一行行的简单文本结构组成
+构成：起始行、首部字段、主体
+7. 连接
+基本的浏览器连接处理
+8. telnet工具与web服务器建立TCP连接并实现简单交互
+9. web的结构组件：web应用程序
+常见的web应用程序：web浏览器、web服务器、代理、缓存、网关、隧道、Agent代理

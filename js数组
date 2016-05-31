@@ -1,0 +1,153 @@
+js 数组
+
+一 、数组的常用方法
+
+1. 数组的创建
+var arrayObj = new Array() ; 
+var arrayObj = new Array(size) ; 
+var arrayObj = new Array([element0[,element1[,...[,elementN]]]) ; 
+var arrayObj = [1,2,3] ; 
+注 ：数组的长度可变
+
+2. 数组的访问
+var testGetArrayValue = arrayObj[1] ; 
+arrayObj[1] = value ; 
+
+3. 添加元素
+arrayObj.push( [ item1 [,item2 [...[,itemN ] ]]) ; 添加到数组结尾，返回数组长度
+arrayObj.unshift( [ item1 [,item2 [... [,itemN ]]]) ; 添加到数组开始，返回数组长度
+arrayObj.splice(insertPos , 0 , [item1 [, item2 [,itemN ]]]) ; 添加到数组指定位置
+
+4. 数组删除
+arrayObj.pop() ; 删除最后一个元素返回删除的元素值 
+arrayObj.shift() ; 删除第一个元素并返回该元素值 
+arrayObj.splice(deletePos,deleteCount) ; 删除指定位置指定数量的元素，返回删除的元素数组 , 不指定数量则默认删除指定位置后的所有元素
+
+5. 数组的截取和合并
+arrayObj.slice(start, [end]) ; 以数组的形式返回数组的一部分 end不传时默认放回start后的所有元素
+arrayObj.concat([item1 , item2[,..[,itemN]]]) ; 将多个数组或字符串或数组和字符串的混合连接为一个数组，返回连接好的新的数组
+
+6. 数组的拷贝
+arrayObj.slice(0) ; 
+arrayObj.concat()  ; 
+
+7. 排序
+arrayObj.sort() ; 返回数组地址
+arrayObj.reverse() ; 反转元素, 返回数组地址 
+
+8. 数组元素的字符串化
+arrayObj.join(separator) ; 以separator连接数组元素
+toString,toLocaleString,valueOf是join的特殊用法
+
+9. 判断是否为数组
+Array.isArray
+
+二、数组的属性
+
+1. length 
+
+(1) 表示数组所占的内存空间的个数 , 数组的长度可变 ; 
+(2) 操作数组导致数组元素数量变化时，其属性length随之变化; 修改数组属性length的值时，数组元素的个数随之变化
+(3) 数组没有初始化的元素的类型和值为undefined
+(4) 当给未定义的数组元素赋值(元素索引>=length),数组的length属性被设置为元素索引的值加一
+
+2. prototype 
+
+给数组添加自定义方法
+function max(){
+	var i,max = this[0] ; 
+	for (i=1 ; i< this.length ; i++) {
+		if ( max < this[i] ) {
+			max = this[i] ; 
+		}
+	}
+	return max ; 
+}
+Array.prototype.max =  max ; 
+
+3. constructor 属性
+
+constructor 属性是所有具有prototype的对象的成员 . 它们包括除Global和Math对象以外的所有JScript固有对象 . 该属性保存了对构造特定对象实例的函数的引用
+
+三 、js迭代器
+
+1. 迭代器是指提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示 .
+
+2. js的Array.prototype.forEach 
+
+例如 : [1,2,3].forEach( function(item) {
+		 console.log(item) 
+	          })
+
+a = {"name":"niyoufa"}
+Object {name: "niyoufa"}
+
+b = {"name":"liuyanqing"}
+Object {name: "liuyanqing"}
+
+c= {"name":"liuxiaoyan"}
+Object {name: "liuxiaoyan"}
+
+[a,b,c].forEach(function(item){console.log(item)})
+
+Object {name: "niyoufa"}
+Object {name: "liuyanqing"}
+Object {name: "liuxiaoyan"}
+
+
+for(item in [a,b,c]){console.log(item)}
+0
+1
+2
+
+四、实现自己的迭代器
+
+1. 内部迭代器
+
+var each = function(arr,callback){
+	for (var i=0 , len = arr.length ; i<len ; i++) {
+		callback(arr[i]) ; 
+	}
+}
+
+each([1,2,3],function(item){
+	console.log(item) ; 	
+}) ; 
+
+2. 外部迭代器
+
+var iterator = function (obj) {
+	var current = 0 ; 
+
+	var next = function() {
+		current += 1 ; 
+	}
+
+	var isDone = function(){
+		return current >= obj.length ; 
+	}
+
+	var getCurrItem = function () {
+		return obj[current] ; 
+	}
+
+	return {
+		next : next , 
+		isDone : isDone , 
+		getCurrItem : getCurrItem , 
+	} ; 
+}
+
+例子 : 比较函数
+
+var compare = function(iterator1 , iterator2) {
+	while( !iterator1.isDone() && !iterator2.isDone() ) {
+		if (iterator1.getCurrItem() !== iterator2.getCurrItem() ) {
+			return 0 ; 
+		}
+		iterator1.next() ; 
+		iterator2.next() ; 
+	}
+
+	return 1 ; 
+}

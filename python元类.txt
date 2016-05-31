@@ -1,0 +1,21 @@
+1. python中一切都是对象
+2. 通过type可以创建类对象,用class定义类时，python就是用type完成了类的创建工作
+3. 元类就是创建类这种对象的东西，type是python内置的元类
+4. 可以自定义元类，可以在自定义类时为其添加__metaclass__属性,__metaclass__是调用type的函数或type的子类
+5.定义一个类时，python会寻找__metaclass__属性，查找的顺序为: 当前定义的类，当前定义的类继承的父类，模块层次中，python内置的type
+6. type的子类自定义的元类通调用type的__new__重写父类的__new__,__new__是用来创建对象并返回之的方法
+7. 元类的主要用途是创建API。典型的例子是Django ORM.
+
+class UpperAttrMetaclass(type):
+    def __new__(cls, name, bases, dct):
+        attrs = ((name, value) for name, value in dct.items() if not name.startswith('__')
+        uppercase_attr  = dict((name.upper(), value) for name, value in attrs)
+        return type.__new__(cls, name, bases, uppercase_attr)
+
+或 : 
+
+class UpperAttrMetaclass(type):
+    def __new__(cls, name, bases, dct):
+        attrs = ((name, value) for name, value in dct.items() if not name.startswith('__'))
+        uppercase_attr = dict((name.upper(), value) for name, value in attrs)
+        return super(UpperAttrMetaclass, cls).__new__(cls, name, bases, uppercase_attr)

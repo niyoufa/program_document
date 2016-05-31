@@ -1,0 +1,89 @@
+1.  Django默认的事务行为
+默认情况下，在Django中事务是自动提交的。当我们运行Django内置的模板修改函数时，例如调用model.save()或model.delete()时，事务将被立即提交。这种机制和数据库的自动提交事务机制类似。记住这里没有默认的回滚机制。
+
+2. 在HTTP请求上加事务
+对于Web请求，Django官方推荐使用中件间TransactionMiddleware来处理请求和响应中的事务。它的工作原理是这样的：当一个请求到来时，Django开始一个事务，如果响应没有出错，Django提交这期间所有的事务，如果view中的函数抛出异常，那么Django会回滚这之间的事务。
+为了实现这个特性，需要在MIDDLEWARE_CLASSES setting中添加TransactionMiddleware：
+ 
+MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.transaction.TransactionMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+)
+ 
+顺序很重要，TransactionMiddleware中间件会将置于其后的中间件都包含在事务的范围之中（用于缓存的中间件除外，他们不受影响，例如CacheMiddleware，UpdateCacheMiddleware和FetchFromCacheMiddleware）。
+另外需要注意的是，TransactionMiddleware只会影响DATABASES设置中的默认的数据库，对于其它的数据库，如果我们实现事务控制的话只能用别的方案了。
+
+3. 在View中实现事务控制
+如果想在更细粒度的条件下（例如在一个view函数中）控制事务，我们可以使用django.db.transaction。有两种用法：
+1.使用装饰器
+from django.db import transaction
+ 
+@transaction.commit_on_success
+def viewfunc(request):
+    # ...
+    # this code executes inside a transaction
+# ...
+ 
+2.使用context manager
+from django.db import transaction
+ 
+def viewfunc(request):
+    # ...
+    # this code executes using default transaction management
+    # ...
+ 
+    with transaction.commit_on_success():
+        # ...
+        # this code executes inside a transaction
+        # ...
+ 
+这两种方法都可以正常工作。不过如果使用的Python版本为2.5并且要使用with语法的话，还需加一句
+from __future__ import with_statement。
+所以为了最大的兼容性，下面的示例使用装饰器来实现事务。
+autocommit() 
+使用autocommit装饰器可以将view函数中的事务还原成Django默认的自动提交模式，无视全局事务的设置。
+示例：
+from django.db import transaction
+ 
+@transaction.autocommit
+def viewfunc(request):
+    ....
+ 
+@transaction.autocommit(using="my_other_database")
+def viewfunc2(request):
+....
+ 
+commit_on_success()
+顾名思义，view函数成功则提交事务，否则回滚。用法同上。
+3. 自己控制事务处理
+commit_manually()
+告诉Django我们将自己控制函数中的事务处理。并且要注意，如果在视图函数中改变了数据库的数据并且没有调用commit() 或rollback()，那么将抛出TransactionManagementError异常。
+示例：
+from django.db import transaction
+ 
+@transaction.commit_manually
+def viewfunc(request):
+    ...
+    # You can commit/rollback however and whenever you want
+    transaction.commit()
+    ...
+ 
+    # But you've got to remember to do it yourself!
+    try:
+        ...
+    except:
+        transaction.rollback()
+    else:
+        transaction.commit()
+ 
+@transaction.commit_manually(using="my_other_database")
+def viewfunc2(request):
+....
+ 
+本文内容全部由Django官方文档翻译而来，参考资料是相关的文档。如果要查看原文或是关于事务更多的细节（例如保存点），可以查阅。
+ 
+参考资料：
+Django官方文档关于事务的说明

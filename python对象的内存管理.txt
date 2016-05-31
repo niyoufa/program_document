@@ -1,0 +1,38 @@
+1. python的赋值语句
+a = 1
+1为一个对象, a为一个引用,引用a指向对象1
+
+2. 对象在内存中的存储
+a = 1
+id(a)
+hex(id(a))
+oct(id(a))
+bin(id(a))
+
+3. python缓存了整数和短字符串
+a= 'a'
+b= 'a'
+a is b
+
+import sys
+sys.getrefcount(a)
+
+4. python容器对象包含的并不是对象本身，而是各对象的引用
+
+5. 对象引用对象是python最基本的构成方式
+globals()是一个字典，存储当前的所有对象引用对象的键值对
+
+6.容器对象的引用
+sudo apt-get install xdot
+sudo apt-get install python-objgraph
+
+7. 使用del删除对象的引用,del也可以用于删除容器对象中的元素
+
+8. python的垃圾回收机制
+基于引用计数的垃圾回收机制
+python只会在特定条件下自动启动垃圾回收,python运行时会会记录其中分配对象和取消对象的次数,当两者的差值高于某个阀值时，垃圾回收才会启动
+gc模块的get_threadshold()查看阀值
+import gc
+print(gc.get_threshold())
+set_shreshold()
+gc.collect()

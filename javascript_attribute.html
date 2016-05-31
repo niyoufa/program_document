@@ -1,0 +1,22 @@
+<html>
+<head>
+	<script type="text/javascript">
+		function Pet(){
+			this.name = "pet";
+		} ;
+		function Cat(){};
+		function Dog(){};
+		Cat.prototype = new Pet();
+		// Cat.prototype.constructor = Cat;
+		Dog.prototype = new Pet();
+		// Dog.prototype.constructor = Dog;
+	</script>
+</head>
+<body>
+<script type="text/javascript">
+	var pet = new Pet();
+	var cat =  new Cat();
+	var dog = new Dog();
+</script>
+</body>
+</html>

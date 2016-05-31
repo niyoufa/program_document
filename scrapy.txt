@@ -1,0 +1,4 @@
+1. 创建一个Scrapy项目
+2. 定义提取的Item
+3. 编写爬取网站的 spider 并提取 Item
+4. 编写 Item Pipeline 来存储提取到的Item(即数据)

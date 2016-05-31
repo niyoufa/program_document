@@ -1,0 +1,17 @@
+span em:hover{  
+        cursor:pointer;  
+     }   
+鼠标经过时，箭头变成手型  
+  
+以下是其他类型：  
+hand是手型        
+例子：CSS鼠标手型效果   <a href="#" style="cursor:hand">CSS鼠标手型效果</a>//把href="#"去掉则没有下划线    
+  
+pointer也是手型，这里推荐使用这种，因为这可以在多种浏览器下使用。   
+例子：CSS鼠标手型效果 <a href="#" style="cursor:pointer">CSS鼠标手型效果</a>  
+  
+crosshair是十字型   
+例子：CSS鼠标十字型 效果 <a href="#" style="cursor:crosshair">CSS鼠标十字型 效果</a>  
+  
+help是问号   
+例子：CSS鼠标问号效果   <a href="#" style="cursor:help">CSS鼠标问号效果</a>  

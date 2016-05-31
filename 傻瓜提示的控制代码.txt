@@ -1,0 +1,15 @@
+def get_description_access(self):
+        try :
+            if self.__getattribute__('description') == "true" :
+                return "block"
+            else :
+                return "none"
+        except :
+            return "none"
+
+
+access_list = ['oil_sales_daily_trend_dash','pump_daily_trend_dash']
+        if self.uid in access_list :
+            return "block"
+        else :
+            return "display"

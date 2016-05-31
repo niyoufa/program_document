@@ -1,0 +1,32 @@
+javascript 对象
+
+1. 对象分类
+用户自定义对象
+核心或内置对象
+浏览器对象BOM
+文档对象DOM
+
+2. 任何通过对象衍生出来的对象都是原对象的属性
+
+3. javascript是先创建对象,再调用构造函数的，this指向当前对象
+
+4. 对象字面量
+
+5. 通过原型扩展对象属性和方法
+每个类的构造函数创建的对象都有两个属性：
+constructor : 创建对象函数的引用
+prototype : 对原型对象的引用
+
+6. 所有对象都有的属性和方法
+constructor
+prototype
+toString()
+ValueOf
+hasOwnProperty(property)
+isPrototypeOf(object)
+
+7. 创建子类及继承方式
+(1) 通过new运算符创建父类的实例并赋值给子类的原型对象
+(2) 将子类的对象赋值给子类原型的constructor，更新了子类的构造函数
+
+8. 用原型来定制javascript的内置对象

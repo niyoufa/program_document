@@ -1,0 +1,24 @@
+(1) 函数定义的三种方式 
+
+I. function语句
+ function functionName(arg0,arg1,...argN) {
+	statements
+}
+
+II. Function构造函数
+var functionName = new Function(arg0,arg1,...,argN,statements) ; 
+
+III. 函数直接量
+var functionName = function(arg0,arg1,...,argN){
+	statement ; 
+}
+或
+var functionName = function functionName(arg0,arg1,...,argN){
+	statement ; 
+}
+
+在上一篇文章中我就提过，如果函数没有返回值，或调用了没有参数的return语句，则它的返回值为undefined 
+用Function构造函数定义函数,所有的参数必须是字符串,一般我们不使用该方式定义函数 , 但所有函数都应看作是
+Function类的实例 。
+函数直接量是一个表达式,函数直接量创建的是未命名函数,它的语法也规定它可以指定函数名 , 但它其实并没有创建一个该名称的函数, 
+该名称只能在函数体中使用。

@@ -1,0 +1,16 @@
+源代码目录结构
+
+  -Bin //可执行文件，django的PATH可以设置在这里，我们最常用的命令之一django-admin.py就在其中
+  -Conf //这是对生成的一个Project和App的配置文件，包括建立Project或者App时候会拷贝到其下的Python代码模板。
+  -Contrib //标准模块。就是说，没有它你也能活，有了它可以帮你减少很大的工作量。例如一个通用的Admin后台，用户认证组件，Session，站点地图等等。
+  -Core //核心模块
+  -Db //数据库接口，Django可以兼容很多数据库，包括MySQL、Oracle等等，甚至SQLite。Db中还包括数据模型Model的定义，使用这些定义，可以屏蔽底层DNMS的差异。
+  -Dispatch //信号相关模块
+  -Froms //表单处理相关模块
+  -Http //Http请求和应答等
+  -Middleware //中间件。可以辅助系统在处理request之前先执行某些处理。
+  -Shortcuts //快捷方式，例如常用的render_to_response方法就在这里了。
+  -Template和Templatetags //django模板引擎
+  -Test //单元测试框架
+  -Utils //实用小程序
+  -Views //视图处理

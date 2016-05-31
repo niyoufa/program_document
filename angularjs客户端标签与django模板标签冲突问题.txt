@@ -1,0 +1,55 @@
+<!-- {% load i18n %}{% load staticfiles %} -->
+<!DOCTYPE html>
+<html>
+
+<body>
+	<div ng-app="MyApp">
+    <div ng-controller="MyController">
+        <input ng-model="myName" type="text" placeholder="Type Your Name">
+        <textarea ng-model="myTextarea" cols="30" rows="10"></textarea>
+        <div><span>$myName$</span></div>
+    </div>
+</div>
+<script type="text/javascript" src="{% static 'js/angular.min.js' %}"></script>
+<!-- <script type="text/javascript" src="/home/nyf/develop/crowdtesting/web/crowdtesting/crowdtesting/static/js/angular.min.js"></script> -->
+
+<script type="text/javascript">
+// angular.module("MyApp", [])
+// .controller("MyController", function($scope, $interpolate){
+//     $scope.$watch("myTextarea", function(newVal, oldVal, scope){
+//         var interpolatedFunc = $interpolate(newVal);
+//         //(1)
+//         $scope.interpolatedValue = interpolatedFunc({myName: $scope.myName}); 
+//         //(2)
+//         //$scope.interpolatedValue = interpolatedFunc(scope);        
+//     });
+
+// });
+
+// angular.module("MyApp", [])
+// .controller("MyController", function($scope, $interpolate){
+//     $scope.$watch("myTextarea", function(newVal, oldVal, scope){
+//         var interpolatedFunc = $interpolate(newVal);
+//         $scope.interpolatedValue = interpolatedFunc({myName: $scope.myName});
+//         //$scope.interpolatedValue = interpolatedFunc(scope);        
+//     });
+    
+// });
+
+angular.module("MyApp", [])
+    .config(['$interpolateProvider', function ($interpolateProvider) {
+    $interpolateProvider.startSymbol('$');
+    $interpolateProvider.endSymbol('$');
+}])
+.controller("MyController", function($scope, $interpolate){
+    $scope.$watch("myTextarea", function(newVal, oldVal, scope){
+        var interpolatedFunc = $interpolate(newVal);
+        $scope.interpolatedValue = interpolatedFunc({myName: $scope.myName});
+        //$scope.interpolatedValue = interpolatedFunc(scope);        
+    });
+
+});
+</script>
+</body>
+</html>
+

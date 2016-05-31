@@ -1,0 +1,5 @@
+union联合分页查询
+
+(select type,is_toped,toped_time,time from xieli_comment where type = 6 and is_toped =true )
+  union  
+(select type,is_toped,toped_time,time from xieli_comment where type = 6 and is_toped =false order by time desc limit 0,10);

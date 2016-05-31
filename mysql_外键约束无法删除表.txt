@@ -1,0 +1,22 @@
+
+MySQL在删除一张表时出现
+ERROR 1217 (23000): Cannot delete or update a parent row: a foreign key constraint fails
+可能是MySQL在InnoDB中设置了foreign key关联，造成无法更新或删除数据。可以通过设置FOREIGN_KEY_CHECKS变量来避免这种情况。
+
+SET FOREIGN_KEY_CHECKS = 0;
+然后就可以删除表了。
+删除完成后设置
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+我们可以使用
+    SET FOREIGN_KEY_CHECKS=0;
+来禁用外码约束.
+ 
+之后再用
+    SET FOREIGN_KEY_CHECKS=1;
+来启动外码约束.
+ 
+查看当前FOREIGN_KEY_CHECKS的值可用如下命令
+    SELECT  @@FOREIGN_KEY_CHECKS;

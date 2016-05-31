@@ -1,0 +1,47 @@
+对python 对象列表根据某个属性排序的方法
+
+对于一个已有的python list， 里面的内容是一些对象，这些对象有一些相同的属性值， 在一些特定的情况下，需要自己选择特定的排序，也就是根据某一个具体的属性来排序，在网上找了下资料，一般来说有两种方法，但从根本上来说，还是调用了list.sort 方法来实现。下面是简单的测试代码片段:
+#coding:utf-8
+class Person:
+    def __init__(self,name,age,salary):
+        self.name = name
+        self.age = age
+        self.salary = salary
+        
+obj_list = [
+            Person('juneys',20,30000),
+            Person('sam',20,20000),
+            Person('eddy',22,25000),            
+            Person('eagle',25,10000)            
+            ]
+#第一种方法
+obj_list.sort(cmp=None, key=lambda x:x.salary, reverse=False)
+print '***********第一种方法***********************'
+for obj in obj_list:
+    print obj.name,obj.salary
+# 第二种方法,更适合于大量数据的情况.
+try: 
+    import operator
+except ImportError: 
+    cmpfun= lambda x: x.count # use a lambda if no operator module
+else: 
+    cmpfun= operator.attrgetter("salary") # use operator since it's faster than lambda
+obj_list.sort(key=cmpfun, reverse=True)
+print '***********第二种方法***********************'
+for obj in obj_list:
+    print obj.name,obj.salary
+
+
+构造了一个 Person 类， 然后初始化一些对象放入obj_list 中， 然后想根据工资进行排序，方法一与方法二分别实现了升序或者降序。 以此类推还可以实现按年龄排序等.
+
+本例结果如下:
+***********第一种方法***********************
+eagle 10000
+sam 20000
+eddy 25000
+juneys 30000
+***********第二种方法***********************
+juneys 30000
+eddy 25000
+sam 20000
+eagle 10000

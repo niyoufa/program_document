@@ -1,0 +1,5 @@
+import os 
+#获取路径下的文件列表
+os.listdir(report_file_path)
+#获取当前路径
+current_path = os.getcwd()+'/'

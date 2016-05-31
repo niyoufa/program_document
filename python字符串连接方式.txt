@@ -1,0 +1,6 @@
+最原始的字符串连接方式：str1 + str2
+python 新字符串连接语法：str1, str2
+奇怪的字符串方式：str1 str2
+% 连接字符串：‘name:%s; sex: ' % ('tom', 'male')
+字符串列表连接：str.join(some_list)
+字符串乘法 : 'a'*3 = 'aaa'

@@ -1,0 +1,1 @@
+gearmand -p 4730 -L 10.22.10.90 --log-file=/tmp/gearmand-4730.log --pid-file=/tmp/gearmand-4730.pid -d

@@ -1,0 +1,22 @@
+
+#反序列化交易编号
+def deserialize_trans_id(long_trans_id):
+    num=long(long_trans_id)
+    # 获取高32位的时间
+    time=int(num>>32)
+    # 获取低32 位
+    num=num & 0xFFFFFFFF
+    shard_id=num>>26
+    #取出低26位
+    num=num & 0x3FFFFFF
+    site_id=num>>16
+    #取出低16位
+    num=num & 0xFFFF
+    gun_id=num>>9
+    #获取金额
+    money=num & 0x1FF
+    return (time, shard_id, site_id, gun_id, money)
+    
+order_no = list(deserialize_trans_id(order.id))
+order_no = [str(item) for item in order_no]
+order_no = "".join(order_no)

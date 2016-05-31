@@ -1,0 +1,37 @@
+def get_into_xieli(username,password,key):
+    import urllib
+    import urllib2
+    import cookielib
+    pdb.set_trace()
+    filename = 'cookie.txt'
+    #声明一个MozillaCookieJar对象实例来保存cookie，之后写入文件
+    # post_data={}
+    # post_data['action'] = "get_csrf_token"
+    # loginUrl = 'http://dev.xielicheng.com:8085/teamup/third_part/api/'
+    # postdata = urllib.urlencode(post_data)
+    # result = opener.open(loginUrl,postdata)
+    #保存cookie到cookie.txt中
+    # cookie.save(ignore_discard=True, ignore_expires=True)
+    #利用cookie请求访问另一个网址，此网址是成绩查询网址
+    gradeUrl = 'http://dev.xielicheng.com:8085/teamup/third_part/api/'
+    #请求访问成绩查询网址
+    login_post_data = {}
+    login_post_data['action'] = "validate_login"
+    
+    # f = urllib.urlopen('http://dev.xielicheng.com:8085/teamup/third_part/api/?action=validate_login&data={%20%22username%22%20:%20%22niyoufa%22%20,%20%22password%22%20:%20%22123456%22%20,%20%22key%22%20:%20%224204b00fb45ba93313135986f06747ce%22%20}')
+    # headers = f.headers.headers
+    # opener.addheaders = f.headers.headers
+    url = "http://dev.xielicheng.com:8085/teamup/third_part/api/?action=get_csrf_token&data={}"
+    f = urllib.urlopen(url)
+    result_data = json.loads(f.read())
+
+    opener = urllib2.build_opener()
+    csrftoken = result_data['data']['csrf_token']
+    opener.addheaders.append(('Cookie', 'csrftoken=%s'%(csrftoken)))
+
+    login_post_data['data'] = json.dumps({'username':username,'password':password,'key':key,'csrfmiddlewaretoken':result_data['data']['csrf_token']})
+    login_post_data['csrfmiddlewaretoken'] = result_data['data']['csrf_token']
+    login_data = urllib.urlencode(login_post_data)
+    opener.addheaders.extend(f.headers.items())
+    result = json.loads(opener.open(gradeUrl,login_data).read())
+    return result

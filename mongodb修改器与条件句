@@ -1,0 +1,11 @@
+mongodb 修改器和条件句
+
+1. 修改器
+
+(1) $inc 
+db.collection.update({"$inc" : {"size" : 1} }) 
+
+(2) $set
+db.collection.update("$set" : {"author" : "niyoufa" })
+
+2. 条件句

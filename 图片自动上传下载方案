@@ -1,0 +1,74 @@
+图片上传
+upload.js
+$(function(){
+	var image_sha1 = null ;
+	uploadImage = function uploadImage($image,$photo){
+		$(".image_upload").fileupload({
+			url:"/crowdtesting/ajax/image_upload/",
+			formData:{},
+			dataType:"json",
+			done:function(e,result){
+				data = result.result ; 
+				if(data['ret'] != "0001"){
+					image_sha1 = null
+					return
+				}
+				image_sha1 = data['image_sha1'];
+				$image.html(image_sha1) ; 
+				$photo.attr("src",'/crowdtesting/ajax/image_download/?image_sha1='+image_sha1);
+			} 
+		});
+	}
+
+	downloadImage = function downloadImage($image,$photo,image_sha1) {
+		$image.html(image_sha1) ; 
+		$photo.attr("src",'/crowdtesting/ajax/image_download/?image_sha1='+image_sha1);
+	}
+
+	$image = $(".image_sha1") ;
+	$photo = $(".photo") ; 
+	uploadImage($image,$photo) ; 
+});
+
+<label>照片:</label><br>
+<input type="file" class="image_upload" name="files"/><br>
+<img src="" class="photo" style="margin-left:0px;width:50px;height:50px;">
+<h5 class="image_sha1" style="display:none;"></h5>
+
+注：img  显示上传的图片
+        h5    上传图片的sha1
+
+
+
+
+
+图片下载
+$(function(){
+	var image_sha1 = null ;
+	uploadImage = function uploadImage($image,$photo){
+		$(".image_upload").fileupload({
+			url:"/crowdtesting/ajax/image_upload/",
+			formData:{},
+			dataType:"json",
+			done:function(e,result){
+				data = result.result ; 
+				if(data['ret'] != "0001"){
+					image_sha1 = null
+					return
+				}
+				image_sha1 = data['image_sha1'];
+				$image.html(image_sha1) ; 
+				$photo.attr("src",'/crowdtesting/ajax/image_download/?image_sha1='+image_sha1);
+			} 
+		});
+	}
+	$image = $(".image_sha1") ;
+	$photo = $(".photo") ; 
+	uploadImage($image,$photo) ; 
+});
+
+
+$image = $image_task.find(".task-option-list .image_sha1") ; 
+$photo = $image_task.find(".task-option-list .photo") ; 
+uploadImage($image,$photo) ; 
+downloadImage(image_sha1) ; 

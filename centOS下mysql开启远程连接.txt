@@ -1,0 +1,38 @@
+centOS下mysql开启远程连接
+
+CentOS系统安装好MySQL后，默认情况下不支持用户通过非本机连接上数据库服务器，下面是解决方法：
+
+1、在控制台执行 mysql -u root -p mysql，系统提示输入数据库root用户的密码，输入完成后即进入mysql控制台，这个命令的第一个mysql是执行命令，第二个mysql是系统数据名称，不一样的。
+
+2、在mysql控制台执行 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'MyPassword' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES; 
+
+3、在mysql控制台执行命令中的 'root'@'%' 可以这样理解: root是用户名，%是主机名或IP地址，这里的%代表任意主机或IP地址，你也可替换成任意其它用户名或指定唯一的IP地址；'MyPassword'是给授权用户指定的登录数据库的密码；另外需要说明一点的是我这里的都是授权所有权限，可以指定部分权限，GRANT具体操作详情见：http://dev.mysql.com/doc/refman/5.1/en/grant.html
+
+4、不放心的话可以在mysql控制台执行 select host, user from user; 检查一下用户表里的内容
+
+到此还是在客户端还是连接不上
+
+ 
+
+此时检查下防火墙是否开启：
+
+/etc/init.d/iptables status
+
+会得到一系列信息，说明防火墙开着。则关闭：
+
+/etc/init.d/iptables stop
+
+永久关闭:：
+
+chkconfig --level 35 iptables off
+
+再次连接，可以了
+
+
+另外，bz2的格式的解压也记录一下
+
+bunzip2 filename.bz2
+
+这样得到一个 filename的文件，原先文件消失了。

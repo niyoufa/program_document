@@ -1,0 +1,10 @@
+
+关于angularjs中,数据模型被改变,页面不刷新的解决办法
+
+1. 主动刷新
+$scope.$apply() ; 
+
+2. 用$http 获取服务器数据
+$http.get("/update?id="+id+"&age="+age).success(function(data){  
+        item.age=age;//页面随着改变刷新  
+});  

@@ -1,0 +1,6 @@
+1. 查看gearman有那些worker 
+gearadmin --workers
+http://www.tuicool.com/articles/zaAbai
+
+install 
+http://www.oschina.net/question/234345_42515

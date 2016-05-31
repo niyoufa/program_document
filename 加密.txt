@@ -1,0 +1,57 @@
+0. #生成一对密钥
+def init_rsa_key():
+    if os.path.exists(settings.RSA_PUBLIC_KEY) and os.path.exists(settings.RSA_PRIVATE_KEY):
+        # load公钥和密钥
+        with open(settings.RSA_PUBLIC_KEY) as publickfile:
+            rsa_public_key = publickfile.read()
+        with open(settings.RSA_PRIVATE_KEY) as privatefile:
+            rsa_private_key = privatefile.read()
+            rsa_key = RSA.importKey(rsa_private_key)
+    else:
+        rsa_key = RSA.generate(2048)
+        rsa_private_key = rsa_key.exportKey()
+        rsa_public_key = rsa_key.publickey().exportKey().replace('\n','')
+
+        pubfile = open(settings.RSA_PUBLIC_KEY,'w+')
+        pubfile.write(rsa_public_key)
+        pubfile.close()
+
+        prifile = open(settings.RSA_PRIVATE_KEY,'w+')
+        prifile.write(rsa_private_key)
+        prifile.close()
+
+
+
+1. 前端 : 
+//密码md5加密
+password = $.md5(password);
+// RSA公钥加密密码
+password = cryptoWord(password);
+
+publickey = ""
+// RSA公钥加密字符串
+function cryptoWord(word){ 
+    var $key = RSA.getPublicKey(publickey);
+    var pwd = RSA.encrypt(word, $key);
+    return pwd;
+}
+
+<script type="text/javascript" src="{% static 'jquery/jquery.md5.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/jsbn.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/sha1.js' %}"></script>
+<script type="text/javascript" src="{% static 'lib/rsa.js' %}"></script>
+
+2. 后台
+#rsa解密
+password =decrypto(password)
+
+#解密函数，前台传来的公钥加密码进行私钥解密
+def decrypto(word):
+	#TODO  settings文件配置私钥文件路径
+	with open(settings.RSA_PRIVATE_KEY,'r') as privatekey:
+	    keydata=privatekey.read()
+	    private_key=RSA.importKey(keydata)
+	    privatekey.close()
+	    message=base64.b64decode(word)
+	    final_message=private_key.decrypt(message)
+	    return final_message.split('\x00')[-1]

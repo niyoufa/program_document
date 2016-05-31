@@ -1,0 +1,207 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,user-scalable=no">
+    <title>React Tutorial</title>
+    <style type="text/css">
+        /*CSS3*/
+        /* background */
+        /*#page_end{
+            background: url(http://127.0.0.1:8010/static/images/pe.png)   no-repeat scroll transparent;width:128px;height:32px;
+        }
+        #page_end:hover {
+            background: url(http://127.0.0.1:8010/static/images/pe.png)  -32px 0px   no-repeat scroll transparent;width:32px;height:40px;
+        }*/
+        /*#collection{
+            background: url(http://127.0.0.1:8010/static/images/pe.png)  -64px 0px    no-repeat scroll transparent;width:32px;height:40px ; 
+        }
+        #collection:hover {
+            background: url(http://127.0.0.1:8010/static/images/pe.png)  -96px 0px    no-repeat scroll transparent;width:32px;height:40px ; 
+        }*/
+
+        /*border-radius*/
+        /*#border_radius{
+            border-radius: 25px;
+            background: red ; 
+            padding:20px;
+            width:200px;
+            height: 150px;
+        }*/
+
+        /*#border_radius{
+            border-radius: 25px;
+            border: 2px solid red ; 
+            padding:20px;
+            width:200px;
+            height: 150px;
+        }*/
+
+        /*#border_radius{
+            border-radius: 25px;
+            background: url(http://127.0.0.1:8010/static/images/pe.png); 
+            padding:20px;
+            width:200px;
+            height: 150px;
+        }*/
+
+        /*border-image 使用图像创建边框*/
+        /*#border_image{
+            border-image: url(http://127.0.0.1:8010/static/images/avart_image.jpg) 30 30 round; 
+            border-image-width: 10px;
+            width:500px;
+            height: 300px;
+        }*/
+
+        /*box-shadow */
+        /*#box_shadow{
+            box-shadow: 1px 1px 0px 2px grey ; 
+            width:100px;
+            height:100px;
+            transform:rotate(10deg);
+            margin:100px 100px;
+        }*/
+
+        /*background*/
+        /*#background{
+            background: url(http://127.0.0.1:8010/static/images/avart_image.jpg) ; 
+            background-size:100% 100%;
+            background-repeat: no-repeat;
+            width: 50px;
+            height: 50px
+        }*/
+
+        /*background gradient 渐变*/
+        /*#background_gradient{
+            width: 100px ; 
+            height:100px;
+            border-radius;
+            background: linear-gradient(red,blue) ; 
+            background: linear-gradient(to right,red,blue)  ; 
+            background: linear-gradient(to left,red,blue)  ; 
+            background: linear-gradient(to bottom right,red,blue)  ; 
+            background: linear-gradient(to bottom left,red,blue)  ; 
+            background: linear-gradient(50deg,red,blue)  ; 
+            background: linear-gradient(red,orange,yellow,green,blue,indigo,violet)  ; 
+            background: linear-gradient(to right , rgba(255,0,0,0) , rgba(255,0,0,1) )  ; 
+            background: repeating-linear-gradient( red ,  yellow 10% , green 20% , blue 30% )  ; 
+            background: radial-gradient( red, green, blue)  ; 
+            background: radial-gradient( circle , red, yellow,black)  ; 
+            background: radial-gradient( ellipse , red, yellow,black)  ; 
+            background: repeating-radial-gradient(red ,yellow 10%  ,green 20% )  ; 
+        }*/
+
+        /*text-shadow*/
+        /*#text_shadow{
+            text-shadow : 5px 5px 5px red;
+        }*/
+
+        /*字体*/
+        /*@font-face {
+            font-family: myFirstFont ; 
+            src : url(sansation_light.woff);        
+        }*/
+
+        /*2D转换*/
+        /*
+            translate() 平移 translate(50px,100px)
+            rotate()      旋转 rotate(30deg)
+            scale()         水平和垂直方向伸缩  scale(1,2)
+            skew()          指定角度伸缩 skew(10deg,10deg)
+            matrix()      合并2D方法 
+        */
+        /*#twoD_transfer{
+            width:100px;
+            height: 100px;
+            border:1px solid;
+            transform: translate(10px,20px) ;  
+        }*/
+        /*#twoD_transfer{
+            width:100px;
+            height: 100px;
+            border:1px solid;
+            transform: rotate(10deg) ;  
+        }*/
+        /*#twoD_transfer{
+            width:100px;
+            height: 100px;
+            transform: scale(10,2) ;  
+            border:1px solid;
+        }
+        #twoD_transfer{
+            width:100px;
+            height: 100px;
+            transform: skew(20deg) ;  
+            border:1px solid;
+        }*/
+
+        /*3D变换*/
+        /*
+            translate3d() 平移 
+            rotate3d()      旋转
+            scale3d()         水平和垂直方向伸缩 
+            skew3d()          指定角度伸缩
+            matrix3d()      合并3D方法 
+        */
+        /*#threeD_transfer{
+            width:100px;
+            height: 100px;
+            background-color: red;
+            text-align: center;
+            transform: rotateY(180deg) ; 
+        }*/
+
+        /*过渡*/
+        /*#transition{
+            width:100px;
+            height:100px;
+            background-color: orange;
+            transition : width 2s;
+        }
+        #transition:hover{
+            width:800px;
+        }*/
+
+        /*动画*/
+        /* 
+        animation
+        animation-name 
+        animation-duration
+        animation-timing-function
+        animation-delay
+        animation-iteration-count
+        animation-direction 
+        animaiton-play-state
+        */
+        @keyframes myfirst {
+            0% {background-color: red ; }
+            100% { background-color: orange ; }
+        }
+        #animation{
+            width:100px;
+            height:100px;
+            animation : myfirst 1s;
+        }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="test">
+        <!--     0px 0px ,     -32px 0px ,    -64px 0px    ,    -96px 0px    ,  -->
+        <div id="page_end"></div>
+        <div id="collection"></div>
+        <div id="border_radius"></div>
+        <div id="border_image"></div>
+        <!-- <div><img id="box_shadow" src="http://127.0.0.1:8010/static/images/avart_image.jpg" alt="网络异常" /></div> -->
+        <div id="background"></div>
+        <div id="background_gradient"></div>
+        <!-- <div id="text_shadow">倪有发</div> -->
+        <div id="twoD_transfer"></div>
+        <!-- <div id="threeD_transfer">你有发</div> -->
+        <div id="transition"></div>
+        <div id="animation"></div>
+    </div>
+  </body>
+</html>

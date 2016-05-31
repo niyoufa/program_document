@@ -1,0 +1,61 @@
+1. 多表连接查询
+class A(models.Model):
+    name = models.CharField(u'名称')
+  class B(models.Model):
+    aa = models.ForeignKey(A)
+B.objects.filter(aa__name__contains='searchtitle')
+
+2. 反向查询
+ class A(models.Model):
+    name = models.CharField(u'名称')
+ class B(models.Model):
+    aa = models.ForeignKey(A,related_name="FAN")
+    bb = models.CharField(u'名称')
+
+查A: A.objects.filter(FAN__bb='XXXX')，都知道related_name的作用，A.FAN.all()是一组以A为外键的B实例，可前面这样的用法是查询出所有(B.aa=A且B.bb=XXXX)的A实例，然后还可以通过__各种关系查找
+
+3. 条件选取querySet的时候，filter表示=，exclude表示!=
+
+querySet.distinct()            去重复
+__exact                               精确等于 like 'aaa'
+ __iexact    		精确等于 忽略大小写 ilike 'aaa'
+ __contains    		包含 like '%aaa%'
+ __icontains    		包含 忽略大小写 ilike '%aaa%'，但是对于sqlite来说，contains的作用效果等同于icontains。
+__gt    			大于
+__gte    			大于等于
+__lt    			小于
+__lte    			小于等于
+__in     			存在于一个list范围内
+__startswith   		以...开头
+__istartswith   		以...开头 忽略大小写
+__endswith     		以...结尾
+__iendswith    		以...结尾，忽略大小写
+__range    		在...范围内
+__year       		日期字段的年份
+__month    		日期字段的月份
+__day        		日期字段的日
+__isnull=True/False
+
+例子：
+>> q1 = Entry.objects.filter(headline__startswith="What")
+>> q2 = q1.exclude(pub_date__gte=datetime.date.today())
+>> q3 = q1.filter(pub_date__gte=datetime.date.today())
+>>> q = q.filter(pub_date__lte=datetime.date.today())
+>>> q = q.exclude(body_text__icontains="food")
+
+4. distinct 
+就是select distinct xxx  from table_name ...这样的功能
+代码如下
+
+xxxx.objects.values("field_name").distinct()
+#或者
+xxxx.objects.distinct().values("field_name") 
+
+5. 关于缓存：
+queryset是有缓存的，a = A.objects.all(),print [i for i in a].第一次执行打印会查询数据库，然后结果会被保存在queryset内置的cache中，再执行print的时候就会取自缓存。
+很多时候会遇到仅需判断queryset是否为空的情况，可以1. if queryset:pass 2.if queryset.count>0:pass 3.if queryset.exists():pass. 三种方式性能依次提升。
+当queryset非常巨大时，cache会成为问题。此时可以queryset.iterator()，迭代器的用处就不多说了
+
+6. Q 
+Q | Q     or 
+Q , Q      and 

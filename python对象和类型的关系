@@ -1,0 +1,23 @@
+python对象和类型的关系
+
+1. python中的一切都是对象
+2. python中只有两种对象 : types 和 non-types
+3. python中产生新对象的方式 : 子类化 , 实例化	
+4. 其实都是实例化的 . 实例化时会指定类型
+
+python中有两种对象:
+- 可创建实例，可子类化.
+Non-type objects - 不能创建实例，不能子类化.
+<type 'type'>;<type 'object'> 是python系统中的两个基本对象.
+每个对象都有class，并且等于该对象的type.
+每个type object有bases属性， 指向该对象的超类.只有<type 'object'>的bases是空的.
+要通过子类化构建对象,我们使用class关键字，并指定新对象的基类bases (或者可选的 type) . 这样通常创建出的是type object.
+要通过实例化构建对象, 需要使用在类对象上使用调用操作符即小括号 (())
+某些non-type objects可以用特定的python语法创建.比如[1, 2, 3] 创建一个 <type 'list'>的实例.
+python在内部总是使用一个type object来创建一个新对象。创建出来的新对象是所用的type object的实例。通过class关键字创建的type object的类型的确定要看所指定的bases以及bases们的类型。
+issubclass(A,B) (测试超类-子类关系) ，以下情况返回True:
+B在A.bases中，
+对于A.bases中的每一个Z，如果 issubclass(Z,B)为True.（即若A的每个直接基类都是B的子类的话，就可以推导出 A也是B的子类）
+isinstance(A,B) (测试类型-实例关系) ，以下情况返回True:
+BBA.class,
+issubclass(A.class,B) 为True.（即若A的类型是B的子类的话，A也就是B的实例）

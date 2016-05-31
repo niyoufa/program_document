@@ -1,0 +1,69 @@
+命令： gzip
+
+语法：gzip ［选项］ 压缩（解压缩）的文件名
+
+-c 将输出写到标准输出上，并保留原有文件。 
+-d 将压缩文件解压。 
+-l 对每个压缩文件，显示下列字段： 
+　（１）压缩文件的大小 
+　（２）未压缩文件的大小 
+　（３）压缩比 
+　未压缩文件的名字 
+-r 递归式地查找指定目录并压缩其中的所有文件或者是解压缩。 
+-t 测试，检查压缩文件是否完整。 
+-v 对每一个压缩和解压的文件，显示文件名和压缩比。 
+-num 用指定的数字num调整压缩的速度，-1或--fast表示最快压缩方法（低压缩比），-9或--best表示最慢压缩方法（高压缩比）。系统缺省值为6。
+
+注：gzip不能压缩整个目录。可以使用tar先打包，再压缩
+
+例如：
+$ tar cf test.tar test/
+$ gzip test.tar 
+或
+$ tar czf test.tar.gz test/
+
+
+目录/home下有文件mm.txt、sort.txt、xx.com。
+
+例1：把/home目录下的每个文件压缩成.gz文件。 
+　　$ cd /home 
+　　$ gzip * 
+　　$ ls 
+　　m.txt.gz sort.txt.gz xx.com.gz
+
+例2：把例1中每个压缩的文件解压，并列出详细的信息。 
+　　$ gzip -dv * 
+　　mm.txt.gz 43.1%-----replaced with mm.txt 
+　　sort.txt.gz 43.1%-----replaced with sort.txt 
+　　xx.com.gz 43.1%-----replaced with xx.com 
+　　$ ls 
+mm.txt sort.txt xx.com
+
+例3：把解压xx.com.gz。 
+　　$ gzip –d xx.com.gz 
+　　$ ls 
+　　xx.com
+
+例4：详细显示例1中每个压缩的文件的信息，并不解压。 
+　　$ gzip -l * 
+　　compressed uncompr. ratio uncompressed_name 
+　　277        445      43.1% mm.txt 
+　　278        445      43.1% sort.txt 
+　　277        445      43.1% xx.com 
+　　$ ls 
+　　mm.txt.gz sort.txt.gz xx.com.gz
+
+例5：压缩一个tar备份文件，如usr.tar，此时压缩文件的扩展名为.tar.gz 
+　　$ gzip usr.tar 
+　　$ ls 
+　　usr.tar.gz
+
+例6：将sort.txt用最佳的压缩比压缩，并保留原本的档案
+    $ gzip -9 -c sort.txt > sort.txt.gz
+
+例7：将sort.txt.gz内容读出来！
+$ zcat sort.txt.gz
+# 此时屏幕上会显示
+sort.txt.gz 解压缩之后的档案内容！！
+
+zcat 则是用来读取压缩文件数据内容的指令！假如我们刚刚压缩的档案是一个文字文件， 那么你还记得如何读取文字文件吗？没错！就是使用 cat ，那么读取压缩档呢？ 就是使用 zcat 啰！由于 gzip 这个压缩指令主要想要用来取代 compress 的，所以 compress 的压缩档案也可以使用 gzip 来解开喔！同时， zcat 这个指令可以同时读取 compress 与 gzip 的压缩档

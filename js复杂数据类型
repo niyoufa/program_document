@@ -1,0 +1,180 @@
+js复杂数据类型
+
+1. function 类型
+function是javascript的关键词 ,  用来创建function类型的对象 , 如 Function，Object都是javascript内置的function对象 。不同的是Function用来创建类型为function的对象 , Object用来创建类型为object的对象  。
+我们可以自定义自己的function类型的对象 。关于函数的相关内容以及基于函数的原型继承后面会详细介绍 。
+现在可以这样理解 ：function类型的对象既可以看成是创建object类型对象的类，也可以看成可执行的函数 。
+
+示例程序1 : 
+
+typeof Function
+>"function"
+
+Function.constructor
+> function Function()
+
+Function.prototype
+>function anonymous()
+
+function a (){}
+>undefined
+
+typeof a 
+>"function"
+
+a.constructor
+>function Function()
+
+function类型的对象拥有Function对象的所有方法和属性, 包括  : 
+
+__defineGetter__
+__defineSetter__
+__lookupGetter__
+__lookupSetter__
+apply
+bind 
+call
+constructor : 构造函数
+hasOwnProperty : 判断是否有某个属性
+isPrototypeOf : 判断是否是某个对象的构造函数
+propertyIsEnumerable : 判断某个属性是否可枚举,就是该属性是否通过for in打印
+toLocaleString
+toString
+valueOf 
+
+arguments = null  类型 : object 
+caller = null  类型 : object 
+length = 1
+name = "Function"
+prototype
+
+示例程序2 : 
+
+typeof Object
+>"function"
+
+Object.constructor
+> function Function() 
+
+Object.prototype b包含了创建一个object对象的所有方法
+>Object {}
+__defineGetter__: __defineGetter__()
+__defineSetter__: __defineSetter__()
+__lookupGetter__: __lookupGetter__()
+__lookupSetter__: __lookupSetter__()
+constructor: Object()
+hasOwnProperty: hasOwnProperty()
+isPrototypeOf: isPrototypeOf()
+propertyIsEnumerable: propertyIsEnumerable()
+toLocaleString: toLocaleString()
+toString: toString()
+valueOf: valueOf()
+get __proto__: get __proto__()
+set __proto__: set __proto__()
+
+Object方法(35) : 
+
+	__defineGetter__
+	__defineSetter__
+	__lookupGetter__
+	__lookupSetter__
+	apply
+	bind 
+	call
+	constructor
+	hasOwnProperty
+	isPrototypeOf
+	length
+	name 
+	propertyIsEnumerable
+	prototype
+	toLocaleString
+	toString
+	valueOf 
+
+	create
+	defineProperties
+	defineProperty
+	deliverChangeRecords
+	freeze
+	getNotifier
+	getOwnPropertyDescriptor
+	getOwnPropertyNames
+	getOwnPropertySymbols
+	getPrototypeOf
+	is
+	isExtensible
+	isFrozen
+	isSealed
+	keys
+	observe
+	preventExtensions
+	seal
+	setPrototypeOf
+	unobserve
+
+Object属性(4) : 
+	arguments = null  类型 : object 
+	caller = null  类型 : object 
+	length = 1
+	name = "Object"
+
+示例程序3 : 
+
+function类型对象的apply和call方法 
+
+function add (a,b){console.log(a+b)}
+>undefined
+
+function sub(a,b){console.log(a-b)}
+>undefined
+
+add.call(sub,2,1)
+>3
+或
+add.apply(sub,[2,1])
+
+function Animal (){
+	this.name = "Animal" ; 
+	this.showName = function (){
+		console.log(this.name) ; 
+	}
+}
+
+function Cat (){
+	this.name = "Cat" ; 
+}
+
+animal = new Animal() ; 
+cat = new Cat() ; 
+
+animal.showName.call(cat,",") ; 
+>Cat
+或
+animal.showName.apply(cat,[]) ; 
+>Cat
+
+2. object 类型
+
+obj = new Object()    <=>  obj = Object.prototype
+typeof obj 
+>"object"
+
+object类型的对象方法 : 
+__defineGetter__
+__defineSetter__
+__lookupGetter__
+__lookupSetter__
+constructor : 构造函数
+hasOwnProperty : 判断是否有某个属性
+isPrototypeOf : 判断是否是某个对象的构造函数
+propertyIsEnumerable : 判断某个属性是否可枚举,就是该属性是否通过for in打印
+toLocaleString 
+toString
+valueOf 
+所有的object类型对象拥有上面的七个方法。
+js中对象的创建的方式包括 : 1. 对象字面量方式 2. 通过构造函数方式 , 具体js中内置的对象有哪些，这是我们下面的一篇文章要介绍的 。
+
+js的复杂数据类型就说这么多了, 我们理解了js中function类型对象，object类型对象这些概念 。
+
+

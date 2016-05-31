@@ -1,0 +1,8 @@
+sqlcmd 使用文档
+http://wenku.baidu.com/link?url=1le0VR77r7eA0mR-3UdHUv9zzEWHo6Wjs83--THEQzApvjwJ7f7FqrLlrTf3_pTMhO5xcNLD43wURXUXzwxe5ymSsqAtdNy6o1vS4OrNfMG
+
+1. 登陆数据库
+sqlcmd -S NYF-518522FEE4D\SQLEXPRESS -U sa -P 920816
+
+2. 
+-Q"BACKUP DATABASE test to disk='c:\aa\aaa.bak'..

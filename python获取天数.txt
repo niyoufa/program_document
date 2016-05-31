@@ -1,0 +1,4 @@
+#获取天数
+import calendar
+monthRange = calendar.monthrange(2013,6)
+day_count = monthRange[1]

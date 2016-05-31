@@ -1,0 +1,37 @@
+鼠标事件是在用户移动鼠标光标或者使用任意鼠标键点击时触发的。
+   (1):click事件：click事件于用户在元素敲击鼠标左键，并在相同元素上松开左键时触发。
+        $('p').click(function(){
+                alert('click function is running !');
+              });
+    (2):dbclick事件：dbclick事件在用户完成迅速连续的两次点击之后触发，双击的速度取决于操作系统的设置。一般双击事件在页面中不经常使用。
+        $('p').dbclick(function(){
+                alert('dbclick function is running !');
+              });
+    (3):mousedown事件：mousedown事件在用户敲击鼠标键时触发，跟keydown事件不一样，该事件仅在按下鼠标时触发。
+        $('p').mousedown(function(){
+                alert('mousedown function is running !');
+              });
+    (4):mouseup事件：mouseup事件在用户松开鼠标时触发，如果在与按下鼠标的元素相同元素上松开，那么click事件也会触发。
+        $('p').mouseup(function(){
+                alert('mouseup function is running !');
+              }).click(function(){
+                 alert('click function is running too !');
+                 });
+    (5):mouseover事件：mouseover事件于用户把鼠标从一个元素移动到另外一个元素上时触发，如果需要知道来自那个元素可以使用，relatedTagrget属性。
+    (6):mouseout事件：mouseout事件于用户把鼠标移出一个元素时触发，这包括从父元素移动到子元素上，或者使用键盘跳到元素上。
+   (5)和(6)这两个事件一般不常用，很难实现与用户的交互，也就是说不易捕获用户事件。
+    (7):mouseenter事件：mouseenter事件是在用户光标进入元素上时触发。
+         $('p').mouseenter(function(){
+                alert('mouseenter function is running !');
+              });
+    (8):mouseleaver事件：mouseleaver事件是在用户的光标离开元素时触发。
+           $('p').mouseleaver(function(){
+                alert('mouseleaver function is running !');
+             });
+     (7)和(8)这两个事件一般连起来使用，在jQuery中可以使用hover这个函数来代替这两个函数。
+       $('p').hover(function(){
+                       alert('mouseenter function is running !');
+                      },function(){
+                              alert('mouseleaver function is running !');
+                         });
+

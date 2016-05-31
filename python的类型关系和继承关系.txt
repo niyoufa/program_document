@@ -1,0 +1,53 @@
+python中的类型关系
+
+在Python中一切都是对象，每个对象都有一个唯一的不可变的ID（通过id函数查询）。把一个名字和一个ID关联起来，就可以通过这个名字检索到这个对象。如果一个对象A持有另一个对象B的ID，那么检索到A之后就可以检索到B，我们就说存在一个A到B的导航。这种导航关系使得Python中所有对象之间形成了一个复杂的网络结构。
+Python程序的运行包括：
+1. 修改这个网络结构；
+2. 执行有副作用的代码对象（code object或者说bytecode，见Python Language Reference 3.2）
+（副作用是指影响Python虚拟机之外的设备，这些代码都是用C或者别的语言写的，Python写的代码只能完成第一步的功能。print语句除外。）
+
+Python对象之间有两种导航关系：继承关系和类型关系，是Python中最基本的关系。类型关系说明一个对象是通过哪个对象创建的；继承关系说明对象之间的父子关系，这种父子关系在名字的解析过程中起到作用。这里我首先说New Style类之间的这两种关系，掌握了New Style类的关系后，再来说明Classic类就容易了。
+
+首先需要说明一下的是内置模块中的type是什么。大家都知道type可以用来判断一个对象的类型，好像是一个函数。实际上在2.2中type是一个类，而且不是普通的类，是一个可以创建类的类，称为元类。你运行type(type)试一下，打印的是。type类是Python类型系统的核心。用type作为一个判断类型的函数使用是比较特殊的情况，或许是由历史原因造成的，用typeof或许更合适。
+
+如何构造一个类型
+你肯定知道是用class语句。但是实际上，在Python核心看来，只有一种方式，那就是调用type的构造函数（因为type是一个类型）。当运行：
+class A(object): 
+ def f(self): print 1
+Python解析器就会执行如下代码所示功能：
+def f(self): print 1
+A=type('A', (object,), {'f',f}) # 参数为（名字， 父类tuple，成员dict）
+del f
+两者效果几乎是一样的，你可以试一下。
+
+类型关系的确定除了使用type之外，还可以使用__class__属性。如：
+class A(object): pass
+a=A()         
+a.__class__  # 'class __main__.A'
+A.__class__  # 'type '
+type.__class__ # 'type '
+type.__class__.__class__ # 'type '
+type.__class__ is type.__class.__class__ # True
+
+继承关系
+继承关系只发生在类型之间，继承关系构成一个有向图。所有的类型都是从object继承来的。“所有的”当然也包括type。object的父类还是object。object作为一个类型对象也是有其类型的，这个类型就是type。所以object和type之间的关系就好比先有鸡还是先有蛋的问题了：type是从object继承的（继承关系）；object是由type生成的（类型关系）。通过issubclass或者__bases__属性来判断两个类之间的继承关系。
+
+那么从type继承意味着什么呢？那意味着这个类的类型是type，同时父类也是type。但是这种做法在一般的编程中是没有什么意义的（却是meta programmming的核心）。因为一般都用class语句，而不是通过调用type的构造函数来创建类型对象。为了说明语法还是举个例子：
+class mytype(type): pass
+A=mytype('A', (object,), {}) # 
+del f
+A.__class__ # class '__main__.mytype'，元类为mytype
+mytype.__class__ # 'type '
+
+在用class定义一个类时，会间接调用type的构造函数。但是通过设置__metaclass__属性，可以不去调用type，而是调用type的子类。如：
+class A(object):
+  __metaclass__ = mytype
+A.__class__ # class '__main__.mytype' ，和上面的方式结果一样。
+
+由此，Python对象的类型关系组成了一个树型结构，其中type处于树的根部，由type或者type的子类构造的类型，包括class定义的类（间接调用type），调用type、type的子类构造函数创建的类，int list等系统定义类型处于中间节点，叶节点为instance对象。type本身的类型是什么呢？还是type。这和根目录的父目录还是根目录是一样的。
+
+Classic类不同于New Style类的地方就是当用class创建一个类时，不是间接调用type，而是间接调用types.ClassType，而types.ClassType是由type创建的。
+class A: pass
+type(A) # type 'classobj'  ，注意没有__class__属性。
+type(A) is types.ClassType # True
+types.ClassType.__class__ # 'type'

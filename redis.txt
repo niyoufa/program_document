@@ -1,0 +1,17 @@
+1. 安装 
+sudo apt-get install redis 
+
+2. 启动服务
+redis-server 
+
+3. 启动客户端
+redis-cls 
+redis-cli -h 127.0.0.1 -p 6379 -a myRedis  
+
+4. 重启服务
+sudo service redis-server restart 
+
+5. 设置密码
+vi /etc/redis/redis.conf 
+#requirepass foobared 
+requirepass字段值设置为密码 

@@ -1,0 +1,145 @@
+//html
+<div id="stock_info">   
+    <div>
+        <table class="table border-table" contenteditable="false" style="font-size:1px;">
+            <thead style="color:#1684C3;">
+                <tr>
+                    <th style="width:100px;">{% trans "商品编号" %}</th>
+                    <th style="width:300px;">{% trans "商品名" %}</th>
+                    <th style="width:100px;">{% trans "库存" %}</th>
+                    <th>{% trans "上次更新库存时间" %}</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div style="overflow-y:auto;height:341px;margin-top:-20px;">
+        <table class="table border-table" contenteditable="false" id="table_id" style="font-size:1px;" >
+            <tbody id="goods_stock_list">
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table class="table border-table" contenteditable="false" style="font-size:1px;" id="table_bottom">
+            <tbody>
+                <tr>
+                    <th>共计<span id="item_length"></span>条记录</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+//js
+export_table_data("the_new_complete_order_list","新增交易明细汇总表") ;
+
+//导出图表配置 table_div_id : 包含table的div的id
+function export_table_data(table_div_id,filename){
+    var tab_thead_str = "#" +table_div_id + " table thead" ; 
+    var tab_table_str = "#" + table_div_id + " table" ; 
+    if($(tab_thead_str).length != 0){
+                $(tab_thead_str).poshytip();
+                    $(".tip-inner").hover(function(){
+                        $(".tip-inner").css("cursor","pointer") ; 
+                    }) ; 
+                    $(".tip-inner").click(function(){
+                                    var head_object_list  = $(tab_thead_str).find("th");
+                                    var head = []
+                                    for(var i =0,len=head_object_list.length;i<len;i++){
+                                        head.push( $(head_object_list[i]).text().trim() );
+                                    }
+                                    data = []
+                                    var tr_object_list = $(tab_table_str).find("tbody>tr");
+                                    for(var i =0,len=tr_object_list.length;i<len;i++){
+                                        td_object_list = $(tr_object_list[i]).find("td");
+                                        data[i] = []
+                                        for(var j =0,len_j=td_object_list.length;j<len_j;j++){
+                                            data[i].push( $(td_object_list[j]).text().trim() );
+                                        }
+                                    }
+                                    filename = filename ; 
+                                    xls_categories = head;
+                                    xls_dataset = data;
+                                    export_data_to_xlws(filename,xls_categories,xls_dataset);
+                    });
+        }
+}
+
+/*导出表格*/
+export_data_to_xlws = function export_data_to_xlws(filename,xls_categories,xls_dataset){
+            /*导出图表*/
+            filename = filename
+            xls_categories = JSON.stringify(xls_categories)
+            xls_dataset = JSON.stringify(xls_dataset)
+            // window.location.assign("/gcustomer/ajax/export_table_data/?xls_categories="+xls_categories+"&"+"xls_dataset="+xls_dataset+'&'+'filename='+filename);
+            $.post("/gcustomer/ajax/export_table_to_xls/",{'categories':xls_categories,'dataset':xls_dataset,"title":filename},function(data){
+                    if(data.ret != '0001'){
+                        alert("没有数据") ; 
+                    }
+                    else{
+                        window.location.assign("/gcustomer/ajax/download_xls_file?filename="+data.filename+".xls") ; 
+                    } ; 
+    },"json") ; 
+}
+
+//python 
+#导出图表数据到xls表格
+def exportTableToXls(request):
+    rsdic={}
+    rsdic["ret"] = Status.OK
+    rsdic['info'] = Status().getReason(rsdic['ret'])
+    categories=json.loads(request.POST['categories'])
+    dataset=json.loads(request.POST['dataset'])
+    filename=request.POST['title']
+    if len(categories) and len(dataset) :
+        wb = xlwt.Workbook(encoding="utf-8")
+        #添加excle表
+        ws = wb.add_sheet('Sheet1')
+        
+        #write table title
+        row_title=[]
+        for obj in categories:
+            row_title.append(obj)
+        i=0
+        for title_value in row_title:
+            ws.write(0,i,title_value)
+            i=i+1
+
+        #写数据到表
+        #从第二行开始按行写数据i=1
+        i=1
+        j = 0
+        dataset_len = len(dataset)
+        for xls_dataset in dataset :
+            for obj_data in xls_dataset :
+                ws.write(i,j,obj_data)
+                j +=1
+            i += 1
+            j = 0
+
+        #将数据存储到临时文件temp.xls供用户下载
+        filename = str(filename) + u"_"+ str(get_current_user(request).name)
+        wb.save('/tmp/'+ filename + '.xls')
+        rsdic['filename'] = filename 
+    else : 
+        rsdic['ret'] = "1111"
+    return HttpResponse(json.dumps(rsdic))
+
+#下载导出的xls文件
+def downloadXlsFile(request):
+    #获取文件名
+    filename=request.GET['filename']
+    #读临时文件的数据
+    data =xlrd.open_workbook('/tmp/'+filename)
+    table = data.sheets()[0]
+    #创建文件数据流
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Sheet1')
+    for row_index in range(table.nrows):
+        for col_index in range(table.ncols):
+            ws.write(row_index,col_index,table.cell(row_index,col_index).value)
+    #定义response格式
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    Content_Disposition='attachment; filename='+str(filename).split("_")[0] + '.xls'
+    response['Content-Disposition'] =Content_Disposition
+    wb.save(response)
+    return response

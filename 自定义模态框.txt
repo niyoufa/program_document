@@ -1,0 +1,18 @@
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="alert_modal" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-sm" style="width:350px;height:200px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+				<h4 class="modal-title" id="alert_modal_title">温馨提示</h4>
+			</div>
+
+			<div class="modal-body">
+				<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+				<span class="glyphicon-class" id="alert_modal_body">请输入客户群名称</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+$("#alert_modal_body").html("alert");
+$("#alert_modal").modal("show");

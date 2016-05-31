@@ -1,0 +1,14 @@
+备份一个表可以用
+pg_dump -f /root/a.sql -t tablename
+或 : pg_dump -U username testdb -t testtable > testtable.sql 
+
+备份多个表到一个文件
+pg_dump testdb -t testtable1 > xx.sql
+pg_dump testdb -t testtable2 >> xx.sql
+pg_dump testdb -t testtable3 >> xx.sql
+
+备份数据库 
+pg_dump -U username testdb  > testdb.sql
+
+只备分数据
+pg_dump testdb -t tablename1 -a > xx.sql
