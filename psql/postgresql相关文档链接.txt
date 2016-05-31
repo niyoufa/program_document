@@ -1,0 +1,1 @@
+1. PostgreSQL 8.1 中文文档 : http://www.php100.com/manual/PostgreSQL8/tutorial-start.html#TUTORIAL-INSTALL

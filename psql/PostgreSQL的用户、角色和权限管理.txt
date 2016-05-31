@@ -1,0 +1,3 @@
+参考文档: http://blog.csdn.net/beiigang/article/details/8604578
+
+ create role xxx with superuser;
