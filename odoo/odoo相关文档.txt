@@ -1,3 +1,5 @@
+
+
 1. Odoo进销存(采购、销售、仓库)入门教程 
 http://blog.csdn.net/wangnan537/article/details/46434373
 
@@ -40,3 +42,5 @@ http://www.cnblogs.com/kaituorensheng/p/4735191.html
 
 13. python document
 http://www.th7.cn/Program/Python/
+
+
