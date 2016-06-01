@@ -1,0 +1,2 @@
+
+1. ./odoo.py scaffold dhuistock dhuiaddons

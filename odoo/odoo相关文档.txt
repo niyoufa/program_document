@@ -1,0 +1,42 @@
+1. Odoo进销存(采购、销售、仓库)入门教程 
+http://blog.csdn.net/wangnan537/article/details/46434373
+
+2. 最简单的会计流程
+http://www.360doc.com/content/11/1117/12/749573_165161324.shtml
+ 
+3. 会计情景对话
+http://www.360doc.com/content/11/1115/20/6290870_164628363.shtml
+
+4. 在Ubuntu Server 14.04 LTS版上以git方式源码安装Odoo8.0
+http://blog.csdn.net/wangnan537/article/details/41693965
+
+5. odoo 深入浅出开发
+http://www.th7.cn/Program/Python/201603/773244.shtml
+http://www.th7.cn/Program/Python/201603/773243.shtml
+http://www.th7.cn/Program/Python/201603/773233.shtml
+
+6. odoo git 
+https://github.com/odoo/odoo 
+
+7. odoo column defined
+http://blog.sina.com.cn/s/blog_57c1d2540101l4ht.html
+
+8. odoo_develop
+http://odoodevelop.lofter.com/
+
+9.  OpenERP QWeb模板标签
+http://blog.csdn.net/vnsoft/article/details/17738213
+http://blog.csdn.net/m0relia/article/details/39025903
+http://www.th7.cn/Program/Python/201603/773233.shtml
+http://blog.csdn.net/kuaileboy1989/article/details/42874823
+
+10. install postgresql client 
+sudo apt-get install pgadmin3
+
+11. 修改postgres密码
+http://www.cnblogs.com/kaituorensheng/p/4735191.html
+
+12. OpenERP应用和开发基础
+
+13. python document
+http://www.th7.cn/Program/Python/
