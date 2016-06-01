@@ -1,3 +1,5 @@
+
+
 1. Odoo进销存(采购、销售、仓库)入门教程 
 http://blog.csdn.net/wangnan537/article/details/46434373
 
@@ -15,14 +17,15 @@ http://www.th7.cn/Program/Python/201603/773244.shtml
 http://www.th7.cn/Program/Python/201603/773243.shtml
 http://www.th7.cn/Program/Python/201603/773233.shtml
 
-6. odoo git 
-https://github.com/odoo/odoo 
+6. odoo 仓库管理
+http://shine-it.net/index.php/topic,16496.0.html
 
 7. odoo column defined
 http://blog.sina.com.cn/s/blog_57c1d2540101l4ht.html
 
 8. odoo_develop
 http://odoodevelop.lofter.com/
+https://www.odoo.com/documentation/8.0/
 
 9.  OpenERP QWeb模板标签
 http://blog.csdn.net/vnsoft/article/details/17738213
@@ -40,3 +43,5 @@ http://www.cnblogs.com/kaituorensheng/p/4735191.html
 
 13. python document
 http://www.th7.cn/Program/Python/
+
+
