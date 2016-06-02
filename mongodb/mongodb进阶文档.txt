@@ -1,0 +1,41 @@
+1. MongoDB 关系
+文档间可以通过嵌入和引用来建立联系
+
+2. MongoDB数据库引用 ： 手动引用（Manual References）， DBRefs
+{ $ref : , $id : , $db :  }
+$ref：集合名称
+$id：引用的id
+$db:数据库名称，可选参数
+
+3. 覆盖索引查询
+db.users.ensureIndex({gender:1,user_name:1})
+db.users.find({gender:"M"},{user_name:1})
+
+4. MongoDB 查询分析
+MongoDB 查询分析常用函数有：explain() 和 hint()。
+
+5. MongoDB 原子操作
+mongodb提供了许多原子操作，比如文档的保存，修改，删除等，都是原子操作。
+
+6. MongoDB 高级索引
+
+7. MongoDB ObjectId
+ObjectId 是一个12字节 BSON 类型数据，有以下格式：
+前4个字节表示时间戳
+接下来的3个字节是机器标识码
+紧接的两个字节由进程id组成（PID）
+最后三个字节是随机数。
+
+注 ：由于 ObjectId 中存储了 4 个字节的时间戳，所以你不需要为你的文档保存时间戳字段，你可以通过 getTimestamp 函数来获取文档的创建时间:ObjectId("5349b4ddd2781d08c09890f4").getTimestamp()
+
+8. MongoDB Map Reduce
+db.collection.mapReduce(
+   function() {emit(key,value);},  //map 函数
+   function(key,values) {return reduceFunction},   //reduce 函数
+   {
+      out: collection,
+      query: document,
+      sort: document,
+      limit: number
+   }
+)

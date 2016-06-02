@@ -1,0 +1,10 @@
+如何理解 Tornado ？
+
+1，web server是监听端口，负责HTTP链接管理、数据收发、HTTP协议实现等底层上的处理。 
+2，Web框架定义的是单个HTTP请求处理的流程。
+3，nginx是反向代理服务器，是一个特殊的web server应用，和web server并不是同级的概念。
+
+作者：刘超
+链接：http://www.zhihu.com/question/20136991/answer/49672826
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

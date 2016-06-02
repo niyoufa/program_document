@@ -1,0 +1,2 @@
+参考 ：http://www.runoob.com/git/git-remote-repo.html
+http://os.51cto.com/art/201108/281782.htm

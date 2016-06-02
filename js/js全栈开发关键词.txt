@@ -1,0 +1,39 @@
+
+js全栈开发重要词汇：
+
+1. javascript面向对象
+基本数据类型 数组 函数 变量作用域 闭包 对象 内建对象 原型 继承 BOM DOM XMLHttpRequest 浏览器事件
+数据处理（Array、Iterator、yield，JSON、Date、正则）
+编程模式和设计模式 
+
+2.客户端javascript
+网页显示过程浏览器处理流程
+JIT window对象 
+window对象属性：navigator location history screen frames document 
+XPath（document.evaluate）
+DOM操作性能 事件处理 样式处理 动画 AJAX JQuery Deferred 
+
+3.HTML5
+History API
+ApplicationCache
+Drag Drop API
+File API
+Web Storage
+Indexed Database
+WebSocket
+Web Workers 
+
+4.Web API
+
+5. 服务器端的javascript
+Nodejs ：
+Buffer 缓冲
+流
+Socket.IO
+WebSocket
+套接字
+文件处理
+定时器
+Express
+Mongodb
+发自我的iPhone

@@ -1,0 +1,14 @@
+0. 配置文件
+
+Prefences -> Settings -> Default
+
+1. 用空格代替tab
+
+// Set to true to insert spaces when tab is pressed
+ "translate_tabs_to_spaces": true,
+
+2. 空格替换tab 
+
+"draw_white_space": "selection",
+修改为　：
+"draw_white_space": "all",

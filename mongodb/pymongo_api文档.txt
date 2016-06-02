@@ -1,0 +1,166 @@
+pymongo API 文档
+参考 ： http://api.mongodb.org/python/current/api/
+https://docs.mongodb.org/getting-started/python
+
+1. 主要模块
+database – Database level operations (数据库级别操作)
+
+collection – Collection level operations (文档级别操作)
+
+command_cursor – Tools for iterating over MongoDB command results (迭代mongodb命令结果的工具)
+
+cursor – Tools for iterating over MongoDB query results (迭代mongodb查询结果的工具)
+
+bulk – The bulk write operations interface (批量写入操作接口)
+
+errors – Exceptions raised by the pymongo package (pymongo 异常处理包)
+
+message – Tools for creating messages to be sent to MongoDB (用于创建消息发送到 MongoDB 的工具)
+
+monitoring – Tools for monitoring driver events. (用于监视驱动事件的工具)
+
+mongo_client – Tools for connecting to MongoDB (连接MongoDB的工具)
+
+mongo_replica_set_client – Tools for connecting to a MongoDB replica set (用于连接到 MongoDB 副本集的工具)
+
+operations – Operation class definitions (类定义操作)
+
+pool – Pool module for use with a MongoDB client. (池模块与 MongoDB 客户端一起使用。)
+
+read_concern – Tools for working with read concern. (读关注工具)
+
+read_preferences – Utilities for choosing which member of a replica set to read from. (实用程序可用于选择复制副本中的哪个成员将设置为只读的)
+
+results – Result class definitions (结果类定义)
+
+son_manipulator – Manipulators that can edit SON documents as they are saved or retrieved (保存和检索子文档的机器人)
+
+cursor_manager – Managers to handle when cursors are killed after being closed (游标被杀死关闭后的管理员处理)
+
+uri_parser – Tools to parse and validate a MongoDB URI (解析和验证 MongoDB URI 的工具)
+
+write_concern – Tools for specifying write concern (指定写入关注的工具)
+
+2. MongoDB URI
+
+mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+
+3. pymongo.MongoClient
+class pymongo.mongo_client.MongoClient(host='localhost', port=27017, document_class=dict, tz_aware=False, connect=True, **kwargs)
+
+client = pymongo.MongoClient()
+client = pymongo.MongoClient(host='localhost',port=27017)
+client = pymongo.MongoClient("mongodb://localhost:27017")
+
+2. pymongo.database.Database
+class pymongo.database.Database(client, name, codec_options=None, read_preference=None, write_concern=None, read_concern=None)
+
+db = client.db_name
+
+3. pymongo.collection
+(1) class pymongo.collection.Collection(database, name, create=False, **kwargs)
+
+(2) bulk_write(requests, ordered=True, bypass_document_validation=False)
+向服务器发送一个批处理操作
+Send a batch of write operations to the server.
+
+Requests are passed as a list of write operation instances ( InsertOne, UpdateOne, UpdateMany, ReplaceOne, DeleteOne, or DeleteMany).
+
+(2) insert_one
+insert_one(document, bypass_document_validation=False)
+
+(3) insert_many
+insert_many(documents, ordered=True, bypass_document_validation=False)
+
+(4) replace_one
+replace_one(filter, replacement, upsert=False, bypass_document_validation=False)
+
+(5) update_one
+update_one(filter, update, upsert=False, bypass_document_validation=False)
+
+(6) update_many
+update_many(filter, update, upsert=False, bypass_document_validation=False)
+
+(7) delete_one
+delete_one(filter)
+
+(8) delete_many
+delete_many(filter)
+
+(9) find
+find(filter=None, projection=None, skip=0, limit=0, no_cursor_timeout=False, cursor_type=CursorType.NON_TAILABLE, sort=None, allow_partial_results=False, oplog_replay=False, modifiers=None, manipulate=True)
+filter : 查询条件
+projection : 查询字段
+skip : 查询偏移量
+limit : 限制查询数量
+sort : 排序条件 a list of (key, direction)
+
+(10) find_one
+find_one(filter_or_id=None, *args, **kwargs)
+
+(11) find_one_and_delete
+find_one_and_delete(filter, projection=None, sort=None, **kwargs)
+
+(12) find_one_and_replace
+find_one_and_replace(filter, replacement, projection=None, sort=None, return_document=ReturnDocument.BEFORE, **kwargs)
+
+(13) find_one_and_update
+find_one_and_update(filter, update, projection=None, sort=None, return_document=ReturnDocument.BEFORE, **kwargs)
+
+(14) count
+count(filter=None, **kwargs)
+
+(15) distinct
+distinct(key, filter=None, **kwargs)
+
+(16) create_index
+create_index(keys, **kwargs)
+a single key or a list of (key, direction)
+
+(17) create_indexes
+from pymongo import IndexModel, ASCENDING, DESCENDING
+index1 = IndexModel([("hello", DESCENDING),("world", ASCENDING)], name="hello_world")
+index2 = IndexModel([("goodbye", DESCENDING)])
+db.test.create_indexes([index1, index2])
+
+(18) drop_index
+drop_index(index_or_name)
+
+(19) drop_indexes
+drop_indexes()
+
+(20) list_indexes
+list_indexes()
+
+(21) drop
+drop()
+
+(22) rename
+rename(new_name, **kwargs)
+
+(23) 
+insert(doc_or_docs, manipulate=True, check_keys=True, continue_on_error=False, **kwargs)
+save(to_save, manipulate=True, check_keys=True, **kwargs)
+update(spec, document, upsert=False, manipulate=False, multi=False, check_keys=True, **kwargs)
+remove(spec_or_id=None, multi=True, **kwargs)
+
+4 . mongodb 修改器 ， 条件句 ，管道
+
+I. 修改器
+{ $set : { "optional" : "OK"} }
+
+II. 条件句
+{"optional" : {$gte : 1}}
+
+III . 管道
+{$管道操作符：{}}
+
+5. command_cursor
+
+6. cursor
+
+7. bulk
+
+8. errors
+
+

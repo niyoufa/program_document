@@ -1,0 +1,10 @@
+数据定义语言 DDL
+
+数据定义语言 (Data Definition Language, DDL) 是SQL语言集中负责数据结构定义与数据库对象定义的语言，由CREATE、ALTER与DROP三个语法所组成 . 
+
+※数据定义语言(DDL)，例如：CREATE、DROP、ALTER等语句。
+※数据操作语言(DML)，例如：INSERT（插入）、UPDATE（修改）、DELETE（删除）语句。
+※ 数据查询语言(DQL)，例如：SELECT语句。（一般不会单独归于一类，因为只有一个语句）。
+※数据控制语言(DCL)，例如：GRANT、REVOKE等语句。
+※事务控制语言（TCL），例如：COMMIT、ROLLBACK等语句。
+

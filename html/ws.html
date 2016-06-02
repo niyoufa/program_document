@@ -1,0 +1,30 @@
+<html>
+<head>
+<script>
+var host = 'ws://localhost:8020/api/websocket/seckill/result?user_id=2&goods_id=5707441677e421082e910171';
+
+var websocket = new WebSocket(host);
+
+websocket.onopen = function (evt) {
+    console.log(evt.data);
+};
+websocket.onmessage = function(evt) {
+    console.log(eval('('+evt.data+')'));
+    res = eval('('+evt.data+')');
+    document.getElementById('num').value = res['num'];
+    
+};
+websocket.onerror = function (evt) { };
+
+function send(){
+    value = document.getElementById('num').value;
+    websocket.send(value);
+}
+
+</script>
+</head>
+<body>
+<input type='text' id='num'></span>
+<button onclick='send()'>click</button>
+</body>
+</html>

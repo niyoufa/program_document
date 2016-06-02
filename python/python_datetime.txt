@@ -1,0 +1,221 @@
+import datetime, calendar   
+date = datetime.datetime.now() 获取的为当前系统时间
+
+#1、返回昨天日期
+def getYesterday():
+   today=datetime.date.today()
+   oneday=datetime.timedelta(days=1)
+   yesterday=today-oneday
+   return yesterday
+
+#2、返回今天日期   
+def getToday():  
+    return datetime.date.today()    
+
+#3、获取给定参数的前几天的日期，返回一个list  
+def getDaysByNum(num):  
+    today=datetime.date.today()  
+    oneday=datetime.timedelta(days=1)      
+    li=[]       
+    for i in range(0,num):  
+        #今天减一天，一天一天减  
+        today=today-oneday  
+        #把日期转换成字符串  
+        #result=datetostr(today)  
+        li.append(datetostr(today))  
+    return li  
+
+#4、将字符串转换成datetime类型  
+def strtodatetime(datestr,format):      
+    return datetime.datetime.strptime(datestr,format)  
+
+#5、时间转换成字符串,格式为2008-08-02  
+def datetostr(date):    
+    return   str(date)[0:10]  
+
+#6、两个日期相隔多少天，例：2008-10-03和2008-10-01是相隔两天  
+def datediff(beginDate,endDate):  
+    format="%Y-%m-%d";  
+    bd=strtodatetime(beginDate,format)  
+    ed=strtodatetime(endDate,format)      
+    oneday=datetime.timedelta(days=1)  
+    count=0
+    while bd!=ed:  
+        ed=ed-oneday  
+        count+=1
+    return count  
+
+#7、获取两个时间段的所有时间,返回list  
+def getDays(beginDate,endDate):  
+    format="%Y-%m-%d";  
+    bd=strtodatetime(beginDate,format)  
+    ed=strtodatetime(endDate,format)  
+    oneday=datetime.timedelta(days=1)   
+    num=datediff(beginDate,endDate)+1   
+    li=[]  
+    for i in range(0,num):   
+        li.append(datetostr(ed))  
+        ed=ed-oneday  
+    return li  
+
+#8、获取当前年份 是一个字符串  
+def getYear():  
+    return str(datetime.date.today())[0:4]   
+
+#9、获取当前月份 是一个字符串  
+def getMonth():  
+    return str(datetime.date.today())[5:7]  
+
+#10、获取当前天 是一个字符串  
+def getDay():  
+    return str(datetime.date.today())[8:10]     
+def getNow():  
+    return datetime.datetime.now()  
+
+      
+print getToday()  
+print getYesterday()  
+print getDaysByNum(3)  
+print getDays('2008-10-01','2008-10-05')  
+print '2008-10-04 00:00:00'[0:10]  
+
+print str(getYear())+getMonth()+getDay()  
+print getNow()
+
+#11、将字符串格式化成时间  
+
+    import datetime
+    >>> s="2006-1-2"
+    print datetime.datetime.strptime(s,"%Y-%m-%d")
+    2006-01-02 00:00:00
+    import time
+    >>> s="2006-1-2"
+    >>> time.strptime(s,"%Y-%m-%d")
+    >>> from time import *
+    >>> strftime("%Y-%m-%d %H:%M:%S", localtime())
+    '2011-10-12 03:00:58'
+#12、将格式字符串转换为时间戳
+    >>> a = "Sat Mar 28 22:24:24 2009"
+    >>> b = mktime(strptime(a,"%a %b %d %H:%M:%S %Y"))
+    >>> print b
+    1238250264.0
+    >>>
+#13、 DateTime示例
+－－－－－－－－－－－－－－－－－
+演示计算两个日期相差天数的计算
+>>> import datetime
+>>> d1 = datetime.datetime(2005, 2, 16)
+>>> d2 = datetime.datetime(2004, 12, 31)
+>>> (d1 - d2).days
+47
+演示计算运行时间的例子，以秒进行显示
+import datetime
+starttime = datetime.datetime.now()
+#long running
+endtime = datetime.datetime.now()
+print (endtime - starttime).seconds
+
+#14、python取前几天的日期
+    >>> from datetime import timedelta, date
+    >>> print date.today() + timedelta(days = -2)   （是不是有点类似 date -d呢）
+    2011-10-09
+    >>> 
+
+演示计算当前时间向后10小时的时间。
+>>> d1 = datetime.datetime.now()
+>>> d3 = d1 + datetime.timedelta(hours=10)
+>>> d3.ctime()
+其本上常用的类有：datetime和timedelta两个。它们之间可以相互加减。每个类都有一些方法和属性可以查看具体的值。
+
+#15、根据一个起始天数，返回相对今天的日期列表
+
+如 MyDate(0).getDaysByNum(1, 7)将得到从昨天开始一周内的日期列表。
+
+class MyDate：
+
+    def __init__ (self, i):
+        self.i = i
+
+    def getDaysByNum(self, st, en):
+        today = datetime.date.today() + datetime.timedelta(-self.i)
+        oneday = datetime.timedelta(days=1)
+        global yesterday
+        yesterday = today - oneday
+        li = []
+        for i in range(0, en):
+            today = today - oneday
+            li.append(str(today).replace("-",""))
+        return li[st-1:en]   
+
+#16、glob：可以使用简单的方法匹配某个目录下的所有子目录或文件，用法也很简单。
+ glob.glob(regression) 返回一个列表
+ glob.iglob(regression) 返回一个遍历器
+
+
+1.将字符串的时间转换为时间戳
+    方法:
+        a = "2013-10-10 23:40:00"
+        将其转换为时间数组
+        import time
+        timeArray = time.strptime(a, "%Y-%m-%d %H:%M:%S")
+    转换为时间戳:
+    timeStamp = int(time.mktime(timeArray))
+    timeStamp == 1381419600
+2.字符串格式更改
+    如a = "2013-10-10 23:40:00",想改为 a = "2013/10/10 23:40:00"
+    方法:先转换为时间数组,然后转换为其他格式
+    timeArray = time.strptime(a, "%Y-%m-%d %H:%M:%S")
+    otherStyleTime = time.strftime("%Y/%m/%d %H:%M:%S", timeArray)
+
+
+3.时间戳转换为指定格式日期:
+    方法一:
+        利用localtime()转换为时间数组,然后格式化为需要的格式,如
+        timeStamp = 1381419600
+        timeArray = time.localtime(timeStamp)
+        otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+        otherStyletime == "2013-10-10 23:40:00"
+
+    方法二:
+        import datetime
+        timeStamp = 1381419600
+        dateArray = datetime.datetime.utcfromtimestamp(timeStamp)
+        otherStyleTime = dateArray.strftime("%Y-%m-%d %H:%M:%S")
+        otherStyletime == "2013-10-10 23:40:00"
+
+4.获取当前时间并转换为指定日期格式
+    方法一:
+        import time
+        获得当前时间时间戳
+        now = int(time.time())  ->这是时间戳
+        转换为其他日期格式,如:"%Y-%m-%d %H:%M:%S"
+        timeArray = time.localtime(timeStamp)
+        otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+
+    方法二:
+        import datetime
+        获得当前时间
+        now = datetime.datetime.now()  ->这是时间数组格式
+        转换为指定的格式:
+        otherStyleTime = now.strftime("%Y-%m-%d %H:%M:%S")
+
+5.获得三天前的时间
+    方法:
+        import time
+        import datetime
+        先获得时间数组格式的日期
+        threeDayAgo = (datetime.datetime.now() - datetime.timedelta(days = 3))
+        转换为时间戳:
+            timeStamp = int(time.mktime(threeDayAgo.timetuple()))
+        转换为其他字符串格式:
+            otherStyleTime = threeDayAgo.strftime("%Y-%m-%d %H:%M:%S")
+    注:timedelta()的参数有:days,hours,seconds,microseconds
+
+6.给定时间戳,计算该时间的几天前时间:
+    timeStamp = 1381419600
+    先转换为datetime
+    import datetime
+    import time
+    dateArray = datetime.datetime.utcfromtimestamp(timeStamp)
+    threeDayAgo = dateArray - datetime.timedelta(days = 3)
+    参考5,可以转换为其他的任意格式了
