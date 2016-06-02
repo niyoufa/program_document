@@ -16,6 +16,7 @@ http://blog.csdn.net/wangnan537/article/details/41693965
 http://www.th7.cn/Program/Python/201603/773244.shtml
 http://www.th7.cn/Program/Python/201603/773243.shtml
 http://www.th7.cn/Program/Python/201603/773233.shtml
+http://www.lai18.com/content/2549281.html
 
 6. odoo 仓库管理
 http://shine-it.net/index.php/topic,16496.0.html
