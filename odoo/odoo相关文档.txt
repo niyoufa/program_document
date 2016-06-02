@@ -47,4 +47,9 @@ http://www.cnblogs.com/kaituorensheng/p/4735191.html
 13. python document
 http://www.th7.cn/Program/Python/
 
+14. odoo 模块开发
+http://shine-it.net/index.php/topic,2159.0.html
+http://www.jeffzhang.cn/Odoo-Official-Doc-Notes/
+http://www.jeffzhang.cn/Odoo-Notes-2/
+
 

@@ -1,6 +1,11 @@
 pymongo API 文档
-参考 ： http://api.mongodb.org/python/current/api/
+参考 ：
+http://api.mongodb.org/python/current/api/
 https://docs.mongodb.org/getting-started/python
+http://api.mongodb.com/python/current/tutorial.html
+http://api.mongodb.com/python/current/api/index.html
+http://api.mongodb.com/python/current/api/pymongo/collection.html
+http://www.runoob.com/mongodb/mongodb-aggregate.html
 
 1. 主要模块
 database – Database level operations (数据库级别操作)

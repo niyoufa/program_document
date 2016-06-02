@@ -1,0 +1,3 @@
+修改linux文件权限命令：chmod
+
+http://www.cnblogs.com/avril/archive/2010/03/23/1692809.html
