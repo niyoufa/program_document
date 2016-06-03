@@ -1,0 +1,11 @@
+
+django相关文档
+
+1. djagno 2.0 Book
+http://docs.30c.org/djangobook2/
+
+2. django 1.8.2
+http://python.usyiyi.cn/django/index.html#getting-help
+
+3. django 1.9
+https://docs.djangoproject.com/en/1.9/

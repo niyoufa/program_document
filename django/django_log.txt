@@ -1,0 +1,3 @@
+
+django 日志配置
+http://python.usyiyi.cn/django/topics/logging.html
