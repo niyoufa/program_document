@@ -1,0 +1,66 @@
+
+http://www.cnblogs.com/finallyliuyu/archive/2012/02/17/2356160.html
+
+
+#python time时间处理相关工具
+
+def get_report_date(time=datetime.datetime.now(),delta=0):
+    curr_date = time - datetime.timedelta(days=delta)
+    return curr_date
+
+def get_curr_time(delta=0):
+    curr_date = datetime.datetime.now() - datetime.timedelta(days=delta)
+    curr_time = str(curr_date).split(".")[0]
+    return curr_time
+
+def get_report_time(query_time=datetime.datetime.now()):
+    report_date = get_report_date(query_time)
+    report_time = str(report_date).split(".")[0]
+    cmp_time = str(report_date).split(" ")[0] + " " +"00:00:00"
+    if report_time < cmp_time :
+        yester_date = report_date - datetime.timedelta(days=1)
+        end_time = str(report_date).split(" ")[0] + " " + "00:00:00"
+        start_time = str(yester_date).split(" ")[0] + " " + "00:00:00"
+    else :
+        tormo_date = report_date + datetime.timedelta(days=1)
+        end_time = str(tormo_date).split(" ")[0] + " " + "00:00:00"
+        start_time = str(report_date).split(" ")[0] + " " + "00:00:00"
+    return start_time, end_time
+
+def get_date_time(date_time_str):
+    date_time_str = str(date_time_str).split(".")[0]
+    date_time_arr = time.strptime(date_time_str, "%Y-%m-%d %H:%M:%S")
+    this_date = datetime.datetime(date_time_arr[0],date_time_arr[1],date_time_arr[2],date_time_arr[3],
+                                  date_time_arr[4],date_time_arr[5])
+    this_time = str(this_date).split(".")[0]
+    cmp_time = str(this_date).split(" ")[0] + " " + "00:00:00"
+    if this_time < cmp_time:
+        yester_date = this_date - datetime.timedelta(days=1)
+        end_time = str(this_date).split(" ")[0] + " " + "00:00:00"
+        start_time = str(yester_date).split(" ")[0] + " " + "00:00:00"
+    else:
+        tormo_date = this_date + datetime.timedelta(days=1)
+        end_time = str(tormo_date).split(" ")[0] + " " + "00:00:00"
+        start_time = str(this_date).split(" ")[0] + " " + "00:00:00"
+    return start_time, end_time
+
+# utc 与本地时间转换
+def utc2local(utc_st):
+    """UTC时间转本地时间（+8:00）"""
+    now_stamp = time.time()
+    local_time = datetime.datetime.fromtimestamp(now_stamp)
+    utc_time = datetime.datetime.utcfromtimestamp(now_stamp)
+    offset = local_time - utc_time
+    local_st = utc_st + offset
+    return local_st
+
+def local2utc(local_st):
+    """本地时间转UTC时间（-8:00）"""
+    time_struct = time.mktime(local_st.timetuple())
+    utc_st = datetime.datetime.utcfromtimestamp(time_struct)
+    return utc_st
+
+def str2datetime(timestr):
+    t = time.strptime(timestr, "%Y-%m-%d %H:%M:%S")
+    d = datetime.datetime(*t[:6])
+    return d

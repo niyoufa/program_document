@@ -1,0 +1,6 @@
+
+odoo 模块开发文档
+
+http://www.lai18.com/content/2549281.html
+http://www.jeffzhang.cn/OpenERP-DEV-Notes-Custom-Module-Development2/
+http://www.lai18.com/content/2549285.html

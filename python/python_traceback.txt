@@ -1,0 +1,17 @@
+
+python 异常模块
+
+http://www.169it.com/article/3213819537.html
+
+import traceback
+import sys
+def tracebacktest():
+    raise SyntaxError, "traceback test"
+try:
+    tracebacktest()
+except:
+    info = sys.exc_info()
+    for file, lineno, function, text in traceback.extract_tb(info[2]):
+        print file, "line:", lineno, "in", function
+        print text
+    print "** %s: %s" % info[:2]
