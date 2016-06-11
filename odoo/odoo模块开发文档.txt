@@ -12,3 +12,4 @@ OpenERP对象字段定义的详细解说 : http://xiaolin0199.iteye.com/blog/203
 OpenERP对象访问 : http://xiaolin0199.iteye.com/blog/2034176
 OpenERP对象定义属性 : http://xiaolin0199.iteye.com/blog/2034154
 OE开发路第一个例子记录 : http://xiaolin0199.iteye.com/blog/2034102
+http://www.chinamaker.net/html/cpnews/
