@@ -8,7 +8,7 @@ OpenERP开发笔记,编写一个培训管理模块 : http://www.jeffzhang.cn/Ope
 OpenERP视图元素基础 : http://xiaolin0199.iteye.com/blog/2034391
 OpenERP 视图 & XML基础 : http://xiaolin0199.iteye.com/blog/2034361
 OpenERP预定义对象方法 : http://xiaolin0199.iteye.com/blog/2034129
-OpenERP对象字段定义的详细解说 : http://xiaolin0199.iteye.com/blog/2034207
+OpenERP对象字段定义的详细解说 : http://xiaolin0199.iteye.com/blog/2034207,http://blog.sina.com.cn/s/blog_57c1d2540101l4ht.html
 OpenERP对象访问 : http://xiaolin0199.iteye.com/blog/2034176
 OpenERP对象定义属性 : http://xiaolin0199.iteye.com/blog/2034154
 OE开发路第一个例子记录 : http://xiaolin0199.iteye.com/blog/2034102
