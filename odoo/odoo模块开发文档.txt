@@ -4,6 +4,7 @@ odoo 模块开发文档
 odoo8.0深入浅出开发教程 : http://www.lai18.com/content/2549281.html
 OpenERP开发笔记,编写一个培训管理模块 : http://www.jeffzhang.cn/OpenERP-DEV-Notes-Custom-Module-Development2/
 请假单 : http://www.lai18.com/content/2549285.html
+http://www.360doc.com/content/16/0302/20/127564_538907980.shtml
 
 OpenERP视图元素基础 : http://xiaolin0199.iteye.com/blog/2034391
 OpenERP 视图 & XML基础 : http://xiaolin0199.iteye.com/blog/2034361
