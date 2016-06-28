@@ -1,0 +1,101 @@
+
+tornado 模板和模板扩展
+
+1. 模板
+template_path=os.path.join(os.path.dirname(__file__), "templates")
+self.render('index.html')
+
+from tornado.template import Template
+content = Template("<html><body><h1>{{ header }}</h1></body></html>")
+print content.generate(header="Welcome!")
+
+print Template("{{ 1+1 }}").generate()
+print Template("{{ 'scrambled eggs'[-4:] }}").generate()
+print Template("{{ ', '.join([str(x*x) for x in range(10)]) }}").generate()
+
+{% if page is None %}
+{% for book in books %}
+    <li>{{ book }}</li>
+{% end %}
+{% set foo = 'bar' %}
+
+Tornado在所有模板中默认提供了一些便利的函数。它们包括：
+
+escape(s)
+替换字符串s中的&、<、>为他们对应的HTML字符。
+
+url_escape(s)
+使用urllib.quote_plus替换字符串s中的字符为URL编码形式。
+
+json_encode(val)
+将val编码成JSON格式。（在系统底层，这是一个对json库的dumps函数的调用。查阅相关的文档以获得更多关于该函数接收和返回参数的信息。）
+
+squeeze(s)
+过滤字符串s，把连续的多个空白字符替换成一个空格。
+
+在模板中使用一个你自己编写的函数也是很简单的：只需要将函数名作为模板的参数传递即可，就像其他变量一样。
+
+>>> from tornado.template import Template
+>>> def disemvowel(s):
+...     return ''.join([x for x in s if x not in 'aeiou'])
+...
+>>> disemvowel("george")
+'grg'
+>>> print Template("my name is {{d('mortimer')}}").generate(d=disemvowel)
+my name is mrtmr
+
+static_path=os.path.join(os.path.dirname(__file__), "static"),
+<link rel="stylesheet" href="{{ static_url("style.css") }}">
+
+2. 模板扩展
+
+{% extends "main.html" %}
+{% block header %}{% end %}
+
+自动转义
+{% autoescape None %} 禁用自动转义
+{% raw mailLink %} 指令来输出不转义的内容
+
+class HelloModule(tornado.web.UIModule):
+    def render(self):
+        return '<h1>Hello, world!</h1>'
+
+app = tornado.web.Application(
+        handlers=[(r'/', HelloHandler)],
+        template_path=os.path.join(os.path.dirname(__file__), 'templates'),
+        ui_modules={'Hello': HelloModule}
+    )
+  
+<html>
+    <head><title>UI Module Example</title></head>
+    <body>
+        {% module Hello() %}
+    </body>
+</html>
+
+
+class SampleModule(tornado.web.UIModule):
+    def render(self, sample):
+        return self.render_string(
+            "modules/sample.html",
+            sample=sample
+        )
+
+    def html_body(self):
+        return "<div class=\"addition\"><p>html_body()</p></div>"
+
+    def embedded_javascript(self):
+        return "document.write(\"<p>embedded_javascript()</p>\")"
+
+    def embedded_css(self):
+        return ".addition {color: #A1CAF1}"
+
+    def css_files(self):
+        return "/static/css/sample.css"
+
+    def javascript_files(self):
+        return "/static/js/sample.js"
+
+
+
+
