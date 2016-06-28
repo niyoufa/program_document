@@ -9,3 +9,6 @@ http://python.usyiyi.cn/django/index.html#getting-help
 
 3. django 1.9
 https://docs.djangoproject.com/en/1.9/
+
+4. django call_command
+http://www.programcreek.com/python/example/56194/django.core.management.call_command
