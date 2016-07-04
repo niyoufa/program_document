@@ -1,5 +1,8 @@
 
 5+ App开发入门指南 : http://ask.dcloud.net.cn/article/89
-Html5+规范 ： http://www.html5plus.org/doc/h5p.html
-5+ App开发Native.js入门指南 : http://ask.dcloud.net.cn/article/88
+
+1. Html5+规范 ： http://www.html5plus.org/doc/h5p.html
+2. mui框架 ：http://dev.dcloud.net.cn/mui/ui/
+3. 5+ App开发Native.js入门指南 : http://ask.dcloud.net.cn/article/88
+
 开源示例 ：https://github.com/dcloudio/casecode
