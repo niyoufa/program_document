@@ -1,7 +1,12 @@
 
 odoo权限管理
 可视化操作实现:http://www.chinamaker.net/html/2012/study_1121/155.html
+
 代码编写实现openerp权限设置:http://www.3e3c.com/erp-210.html
+1. 建立组
+2. 组控制菜单显示
+3. 权限规则
+4.  ir.model.access.csv
 
 odoo中的访问URL：
 http://120.26.226.63:8889/web?#page=0&limit=80&view_type=list&model=sale.order&menu_id=254&action=308
