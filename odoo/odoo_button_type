@@ -1,0 +1,27 @@
+
+Odoo OpenERP 中 Button type
+发布时间：2015-03-30 09:13:29来源：http://www.chinamaker.net
+Odoo OpenERP 中 Button type
+关于button, 在Odoo/OpenERP中有三种不同的类型： Object , Action 和 workflow. 其默认值是workflow
+ 
+这三种不同按钮的区别是：
+ 
+object： 用于调用py程序中写的方法（method）
+ 
+action： 用于调用xml文件中写的动作（action）。 
+         比如， 如果你点击一个按钮后， 想让它打开一个向导(wizard), 那么就可以使用 type="action"
+ 
+workflow: 用于调用工作流 (缺省值）
+ 
+举例：
+ 
+＜button name="%(action_view_sale_advance_payment_inv)d"
+ string="Create Invoice"
+ type="action"＞
+ 
+当点击 Create Invoice 按钮后，会看到向导.  
+在某台服务器上，它可能相当于
+ 
+＜button name="278" string="Create Invoice" type="action"＞
+ 
+这里 278  是那台服务器上 postgresql数据库中 动作 action_view_sale_advance_payment_inv 的 ID.
