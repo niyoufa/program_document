@@ -46,3 +46,52 @@ sudo vi /etc/apache2/sites-available/sitename.conf
     </Files>
     </Directory>
 </VirtualHost>
+
+4. 修改wsgi.py文件
+
+加入如下内容：
+from os.path import join,dirname,abspath
+ 
+PROJECT_DIR = dirname(dirname(abspath(__file__)))#3
+import sys # 4
+sys.path.insert(0,PROJECT_DIR) # 5
+
+5. 设置目录和文件权限
+
+一般目录权限设置为 755，文件权限设置为 644 
+
+假如项目位置在 /home/tu/zqxt （在zqxt 下面有一个 manage.py，zqxt 是项目名称）
+cd /home/tu/
+sudo chmod -R 644 zqxt
+sudo find zqxt -type d -exec chmod 755 \{\} \;
+
+6. settings.py 设置
+在settings.py中设置：
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/dev/howto/static-files/
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+ 
+# upload folder
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+7. 激活新网站
+
+sudo a2ensite sitename 或 sudo a2ensite sitename.conf
+
+8. 错误排查
+
+cat /var/log/apache2/error.log
+
+9. 总结
+
+部署时文件对应关系:
+
+sitename.conf --> wsgi.py --> settings.py --> urls.py --> views.py
+
+
+
+
+ 
