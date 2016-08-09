@@ -1,0 +1,92 @@
+
+django nginx 部署
+
+1. 安装必要的包
+
+sudo apt-get install python-dev nginx
+sudo pip install gunicorn / sudo pip install uwsgi
+(sudo) pip install supervisor
+
+2. 使用 uwsgi 运行项目
+
+uwsgi --http :8085 --module djangoauth.wsgi --chdir /home/dhui100/develop/djangoproject/djangoauth/
+
+3. 使用supervisor来管理进程
+
+打开 supervisor.conf 在最底部添加（每一行前面不要有空格，防止报错）：
+[program:djangoauth]
+command=uwsgi --http :8085 --module djangoauth.wsgi --chdir /home/dhui100/develop/djangoproject/djangoauth/
+directory=/home/dhui100/develop/djangoproject/djangoauth/
+startsecs=0
+stopwaitsecs=0
+autostart=true
+autorestart=true
+
+启动 supervisor
+(sudo) supervisord -c /etc/supervisord.conf
+重启 zqxt 程序（项目）：
+(sudo) supervisorctl -c /etc/supervisord.conf restart zqxt
+启动，停止，或重启 supervisor 管理的某个程序 或 所有程序：
+(sudo) supervisorctl -c /etc/supervisord.conf [start|stop|restart] [program-name|all]
+
+4. 使用 ini 配置文件 /home/dhui100/develop/djangoproject/djangoauth/uwsgi.ini
+[uwsgi]
+socket = /tmp/zqxt.sock
+chdir=/home/tu/zqxt
+wsgi-file = zqxt/wsgi.py
+touch-reload=/home/tu/zqxt/reload
+ 
+processes = 2
+threads = 4
+ 
+chmod-socket = 664
+chown-socket=tu:www-data
+
+修改supervisor.conf文件
+[program:djangoauth]
+command=uwsgi --http :8085 --module djangoauth.wsgi --ini /home/dhui100/develop/djangoproject/djangoauth/uwsgi.ini
+;command=uwsgi --http :8085 --module djangoauth.wsgi --chdir /home/dhui100/develop/djangoproject/djangoauth/
+;command=gunicorn -w1 -b0.0.0.0:8085 djangoauth.wsgi --chdir /home/dhui100/develop/djangoproject/djangoauth/
+directory=/home/dhui100/develop/djangoproject/djangoauth/
+startsecs=0
+stopwaitsecs=0
+autostart=true
+autorestart=true
+
+重启一下 supervisor：
+(sudo) supervisord -c /etc/supervisord.conf
+(sudo) supervisorctl -c /etc/supervisord.conf restart djangoauth
+
+5. 配置nginx
+
+sudo vim /etc/nginx/sites-available/djangoauth.conf
+server {
+    listen      80;
+    server_name www.ziqiangxuetang.com;
+    charset     utf-8;
+ 
+    client_max_body_size 75M;
+ 
+    location /media  {
+        alias /path/to/project/media;
+    }
+ 
+    location /static {
+        alias /path/to/project/static;
+    }
+ 
+    location / {
+        uwsgi_pass  unix:///tmp/djangoauth.sock;
+        include     /etc/nginx/uwsgi_params;
+    }
+}
+
+激活网站：
+sudo ln -s /etc/nginx/sites-available/djangoauth.conf /etc/nginx/sites-enabled/djangoauth.conf
+
+测试配置语法问题
+sudo service nginx configtest
+
+重启 nginx 服务器：
+sudo service nginx reload 或者 sudo service nginx restart
+
