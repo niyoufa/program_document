@@ -1,0 +1,48 @@
+
+django apache 部署
+
+1. 安装 apache2 和 mod_wsgi
+
+sudo apt-get install apache2
+ 
+# Python 2
+sudo apt-get install libapache2-mod-wsgi
+http://blog.chinaunix.net/uid-20940095-id-4408225.html?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io
+ 
+# Python 3
+sudo apt-get install libapache2-mod-wsgi-py3
+
+2. 确认安装的apache2版本号
+
+apachectl -v
+
+3. 新建一个网站配置文件
+
+sudo vi /etc/apache2/sites-available/sitename.conf
+内容如下：
+<VirtualHost *:80>
+    ServerName 127.0.0.1
+    ServerAlias 127.0.0.1
+    ServerAdmin 1061794187@qq.com
+
+    #Alias /media/ /home/dhui100/develop/djangoproject/djangoauth/djangoauth/media/
+    Alias /static/ /home/dhui100/develop/djangoproject/djangoauth/static/
+
+    <Directory /home/dhui100/develop/djangoproject/djangoauth/djangoauth/media/>
+        Require all granted
+    </Directory>
+
+    <Directory /home/dhui100/develop/djangoproject/djangoauth/static/>
+        Require all granted
+    </Directory>
+
+    WSGIScriptAlias / /home/dhui100/develop/djangoproject/djangoauth/djangoauth/wsgi.py
+    # WSGIDaemonProcess youfa.com python-path=/home/dhui123/develop/djangoproject/djangoauth:/home/dhui123/.virtualenvs/develop/djangoproject/djangoauth/lib/python2.7/site-packages
+    # WSGIProcessGroup youfa.com
+
+    <Directory /home/dhui100/develop/djangoproject/djangoauth/djangoauth/>
+    <Files wsgi.py>
+        Require all granted
+    </Files>
+    </Directory>
+</VirtualHost>
