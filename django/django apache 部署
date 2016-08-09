@@ -65,7 +65,9 @@ cd /home/tu/
 sudo chmod -R 644 zqxt
 sudo find zqxt -type d -exec chmod 755 \{\} \;
 
-6. settings.py 设置
+6. 集成静态文件,settings.py 设置
+
+python manage.py collectstatic
 在settings.py中设置：
 
 # Static files (CSS, JavaScript, Images)
